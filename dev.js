@@ -15,7 +15,9 @@ const args = getArgs();
 
 if (args.operation) {
   if (operations[args.operation]) {
+    context["options"] = args.options;
     operations[args.operation].apply(null, [context].concat(args.options));
+
   } else {
     console.error('Invalid operation: ' + args.operation + '. (Available operations are: ' + Object.keys(operations).join(', ') + ')');
   }
