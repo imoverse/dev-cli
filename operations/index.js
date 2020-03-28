@@ -8,6 +8,8 @@ const operations = {
   cd: require('./cd'),
   createNetwork: require('./createNetwork'),
   startExternal: require('./startExternal'),
+  kns: require('./kns'),
+  klogs: require('./klogs'),
   c: collection,
   collection,
 };
