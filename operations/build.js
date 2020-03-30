@@ -29,7 +29,11 @@ module.exports = (context, search) => {
       return;
     }
     const cwd = process.cwd();
-    const containerName = cwd.substring(cwd.lastIndexOf('/') + 1);
+    if (cwd.lastIndexOf('\\') !== -1) {
+      containerName = cwd.substring(cwd.lastIndexOf('\\') + 1);
+    } else {
+      containerName = cwd.substring(cwd.lastIndexOf('/') + 1);
+    }
     runCommand(containerName);
   });
 };

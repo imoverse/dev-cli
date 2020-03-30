@@ -4,6 +4,9 @@ const runContainer = require('../helpers/run_container');
 
 
 module.exports = (context, search) => {
+
+  context.containers.push({ name: "vehicle-access-api", port: 6000 });
+  console.log(context)
   if (search) {
     const container = findContainer(context, search);
     if (container) {
@@ -25,7 +28,6 @@ module.exports = (context, search) => {
     } else {
       containerName = cwd.substring(cwd.lastIndexOf('/') + 1);
     }
-
     const containerConfig = context.containers.find((c) => c.name === containerName);
     runContainer(context, containerConfig);
   });
