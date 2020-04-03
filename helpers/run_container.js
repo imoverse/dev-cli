@@ -1,7 +1,7 @@
 const shell = require('shelljs');
 
 const runContainer = (context, containerConfig) => {
-  let flags = ['-dp', 'dev'];
+  let flags = ['-d', 'dev'];
   let itr = 0;
   context.options.forEach(flag => {
     if (flag.startsWith("-")) { flags[itr++] = flag }
