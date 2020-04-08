@@ -12,6 +12,8 @@ const operations = {
   klogs: require('./klogs'),
   c: collection,
   collection,
+  '-h': require('./help'),
+  help: require('./help'),
 };
 
 module.exports = operations;
