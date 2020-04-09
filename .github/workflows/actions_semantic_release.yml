@@ -29,3 +29,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_RELEASE }}
           NPM_TOKEN: ${{ secrets.NPM_PACKAGE_IMOVERSE }}
         run: npx semantic-release
+
