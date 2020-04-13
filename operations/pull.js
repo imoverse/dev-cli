@@ -3,7 +3,7 @@ const shell = require('shelljs');
 
 module.exports = (context, search) => {
 
-  const cloneContainer = (name) => {
+  const pullContainer = (name) => {
     const target = `${context.root}/${name}`;
     const cmd = `git -C ${target} pull --rebase`;
     shell.echo(cmd)
@@ -13,7 +13,7 @@ module.exports = (context, search) => {
   if (search) {
     const container = findContainer(context, search);
     if (container) {
-      cloneContainer(container.name);
+      pullContainer(container.name);
     } else {
       console.error(`Could not find container matching '${search}'`);
     }
@@ -21,6 +21,6 @@ module.exports = (context, search) => {
   }
 
   context.containers.forEach(({ name }) => {
-    cloneContainer(name);
+    pullContainer(name);
   });
 }
