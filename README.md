@@ -138,17 +138,27 @@ This will run `git pull` on the current branch. There is no check for local chan
 
 Assuming there is a `Dockerfile` in the root of each repository, this command will build the container. The container is named after `containerName`.
 
+If no filter is supplied, the container in the current working directory is built. To build all containers, run `dev build all`.
+
 ### `dev run [filter]`
 
 Run the container(s) in development mode. The default container command is overridden by `npm run dev`, and the source code of the repository is mounted into the `/app` directory of the container. This means that if you create a script in your `package.json` named `dev` which runs i.e. `nodemon` the internal process of the container will restart when a file changes, and you will be able to test, whichout having to rebuild the container. In my experience, this provides the fastest REPL working with these kinds of projects.
+
+If no filter is supplied, the container in the current working directory is run. To run all containers, run `dev run all`.
+
+### `dev stop [filter]`
+
+Stop (or remove) the container.
+
+If no filter is supplied, the container in the current working directory is stopped. To stop all containers, run `dev stop all`.
 
 ### `dev createNetwork`
 
 This command simply creates a docker network named after the `context.name` value provided in the `.dev` file.
 
-### `dev runExternal`
+### `dev startExternal [containerName]`
 
-Bacause external containers typically have more run options, a seperate command needs to be used for these containers.
+Bacause external containers typically have more run options, a seperate command needs to be used for these containers. The container name is not optional and must be exactly matching the external container hash value.
 
 ### `dev kns [environment]`
 
@@ -157,3 +167,37 @@ Set the current Kubernetes namespace and context based on the values in the `env
 ### `dev klogs [filter]`
 
 Display the logs from container in the current Kubernetes namespace. Note that filter here matches the pod name, and not the container name, although they should be quite similar. The logs of the first (partly) matching container is shown.
+
+### `dev collection [filter]` or `dev c [filter]`
+This will start all the containers in the first collection matching `filter`. The containers are started in the sequence given by the collection.
+
+### `dev install [filter]` or `dev i [filter]`
+
+BETA: Install dependencies for the container using `npm install`.
+
+### `dev runDatabaseMigration [filter]`
+
+BETA: Run `npm run knex-local`, which will run the knex database migration script for the container.
+
+### `dev init`
+
+Runs the following commands in sequence:
+1. clone
+2. createNetwork
+3. install
+4. runDatabaseMigration
+5. build
+
+### Bonus: `dev cd [filter]` and `d [filter]`
+
+This command will output the exact path to the matching container. Adding the following function to `~/.bash_profile` will enable instant switching of the current directory from anywhere within the `.dev`-context to the source code of the matching container:
+
+```
+function d(){
+  DIR=`dev cd $1`
+  echo $DIR
+  cd $DIR
+}
+```
+
+This enables the use of `d authorizat` from anywhere within the `.dev`-context, and the current working directory is instantly changed to the authorization container's source code.
