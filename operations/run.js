@@ -4,9 +4,14 @@ const runContainer = require('../helpers/run_container');
 
 
 module.exports = (context, search) => {
+  if (search === 'all') {
+    context.containers.forEach((c) => {
+      const path = `${context.root}/${c.name}`;
+      runContainer(context, c);
+    });
+    return;
+  }
 
-  context.containers.push({ name: "vehicle-access-api", port: 6000 });
-  console.log(context)
   if (search) {
     const container = findContainer(context, search);
     if (container) {
