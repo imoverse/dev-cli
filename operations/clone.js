@@ -5,7 +5,7 @@ module.exports = (context, search) => {
 
   const pullContainer = (name) => {
     const target = `${context.root}/${name}`;
-    const cmd = `git clone git@bitbucket.org:imove-dev/${name}.git ${target}`;
+    const cmd = `git clone ${context.gitBasePath}/${name}.git ${target}`;
     shell.echo(cmd)
     shell.exec(cmd);
   };
