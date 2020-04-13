@@ -13,6 +13,14 @@ const runCommand = (containerName, path = '.') => {
 };
 
 module.exports = (context, search) => {
+  if (search === 'all') {
+    context.containers.forEach((c) => {
+      const path = `${context.root}/${c.name}`;
+      runCommand(c.name, path);
+    });
+    return;
+  }
+
   if (search) {
     const container = findContainer(context, search);
     if (container) {
@@ -23,6 +31,8 @@ module.exports = (context, search) => {
     }
     return;
   }
+
+
   fs.access('Dockerfile', fs.constants.F_OK, (err) => {
     if (err) {
       console.error('Current directory is missing Dockerfile');
