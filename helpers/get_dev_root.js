@@ -21,5 +21,5 @@ module.exports = function getDevRoot() {
     parentFolders.pop();
   }
 
-  throw new Error('Could not find dev root');
+  throw new Error(`Could not find dev root in ${process.cwd()} or any of it's parent directories.`);
 };

@@ -1,6 +1,14 @@
 #!/usr/bin/env node
 
 const getArgs = require('./helpers/get_args');
+const operations = require('./operations');
+const args = getArgs();
+
+if (args.operation === 'help') {
+  operations.help();
+  return;
+}
+
 let context;
 try {
   const getDevRoot = require('./helpers/get_dev_root');
@@ -9,9 +17,6 @@ try {
   console.log(err.message);
   process.exit(4);
 }
-
-const operations = require('./operations');
-const args = getArgs();
 
 if (args.operation) {
   if (operations[args.operation]) {

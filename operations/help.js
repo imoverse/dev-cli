@@ -1,5 +1,4 @@
 const chalk = require('chalk');
-const shell = require('shelljs');
 
 module.exports = () => {
   console.log(chalk`
