@@ -36,7 +36,7 @@ const operations = {
     createNetwork(context);
     installDependencies(context),
     runDatabaseMigration(context),
-    build(context);
+    build(context, 'all');
   },
 };
 
