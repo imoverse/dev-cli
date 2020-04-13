@@ -1,9 +1,9 @@
 const shell = require('shelljs');
 
-module.exports = (context, namespace) => {
-  const ns = context.namespaces.find((ns) => ns.env === namespace);
+module.exports = (context, environment) => {
+  const ns = context.environments.find((ns) => ns.env === environment);
   if (!ns) {
-    console.error(`Could not find namespace ${namespace}. Available namespaces are [${context.namespaces.map((ns) => ns.env).join(', ')}].`);
+    console.error(`Could not find environment ${environment}. Available environments are [${context.environments.map((ns) => ns.env).join(', ')}].`);
     return;
   }
   
