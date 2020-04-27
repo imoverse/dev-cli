@@ -12,6 +12,7 @@ const klogs = require('./klogs');
 const help = require('./help');
 const installDependencies = require('./installDependencies');
 const runDatabaseMigration = require('./runDatabaseMigration');
+const ksh = require('./ksh');
 
 const operations = {
   clone,
@@ -31,6 +32,7 @@ const operations = {
   runDatabaseMigration,
   '-h': help,
   help,
+  ksh,
   init: (context) => {
     clone(context);
     createNetwork(context);

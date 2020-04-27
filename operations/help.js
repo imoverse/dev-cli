@@ -28,6 +28,8 @@ module.exports = () => {
 
   {green klogs:}          Print the log of the mathcing container in the kubernetes cluster.
 
+  {green ksh:}            Get a shell into the matching pod.
+
 
   `);
   
