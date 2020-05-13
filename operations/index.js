@@ -15,6 +15,7 @@ const runDatabaseMigration = require('./runDatabaseMigration');
 const ksh = require('./ksh');
 const kproxy = require('./kproxy');
 const kenv = require('./kenv');
+const kpods = require('./kpods');
 
 const operations = {
   clone,
@@ -37,6 +38,8 @@ const operations = {
   ksh,
   kproxy,
   kenv,
+  pods: kpods,
+  kpods,
   init: (context) => {
     clone(context);
     createNetwork(context);
