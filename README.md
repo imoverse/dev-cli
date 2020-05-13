@@ -168,6 +168,22 @@ Set the current Kubernetes namespace and context based on the values in the `env
 
 Display the logs from container in the current Kubernetes namespace. Note that filter here matches the pod name, and not the container name, although they should be quite similar. The logs of the first (partly) matching container is shown.
 
+### `dev kproxy [filter]`
+
+Set up a proxy to the first matching pod. Port mapping is fetched from context.
+
+### `dev kenv [filter]`
+
+Print the environment variables for the first matching pod.
+
+### `dev kpods` or `dev pods`
+
+Alias for kubectl get pods.
+
+### `dev ksh [filter]`
+
+Print the command for setting up a shell to the first matching container. Because this cli runs a seperate shell process, creating a new interactive shell from the cli is not possible at the moment.
+
 ### `dev collection [filter]` or `dev c [filter]`
 This will start all the containers in the first collection matching `filter`. The containers are started in the sequence given by the collection.
 
