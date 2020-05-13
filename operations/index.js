@@ -13,6 +13,7 @@ const help = require('./help');
 const installDependencies = require('./installDependencies');
 const runDatabaseMigration = require('./runDatabaseMigration');
 const ksh = require('./ksh');
+const kproxy = require('./kproxy');
 
 const operations = {
   clone,
@@ -33,6 +34,7 @@ const operations = {
   '-h': help,
   help,
   ksh,
+  kproxy,
   init: (context) => {
     clone(context);
     createNetwork(context);
