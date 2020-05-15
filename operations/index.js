@@ -16,6 +16,7 @@ const ksh = require('./ksh');
 const kproxy = require('./kproxy');
 const kenv = require('./kenv');
 const kpods = require('./kpods');
+const getVariables = require('./getVariables');
 
 const operations = {
   clone,
@@ -40,6 +41,7 @@ const operations = {
   kenv,
   pods: kpods,
   kpods,
+  getVariables,
   init: (context) => {
     clone(context);
     createNetwork(context);
