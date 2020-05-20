@@ -14,7 +14,12 @@ module.exports = (context, container) => {
   }
 
   run.forEach((config) => {
-    const cmd = `docker run -d ${config.port ? '-p ' + config.port : ''} ${config.volume ? '-v ' + context.root + '/' + config.volume : ''} --network ${context.name} --name ${config.name} ${config.image}`;
+    const env = !config.env ? '' : config.env.map(e => {
+      const key = Object.keys(e)[0];
+      const value = e[key];
+      return `-e ${key}=${value}`;
+    }).join(' ');
+    const cmd = `docker run -d ${config.port ? '-p ' + config.port : ''} ${config.volume ? '-v ' + context.root + '/' + config.volume : ''} ${env} --network ${context.name} --name ${config.name} ${config.image}`;
     shell.echo(cmd)
     shell.exec(cmd);
   });
