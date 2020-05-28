@@ -8,7 +8,7 @@ module.exports = (context, environment) => {
   }
   
   const cmd1 = `kubectl config use-context ${ns.ctx}`;
-  const cmd2 = `kubectl config set-context $(kubectl config current-context) --namespace=${ns.ns}`;
+  const cmd2 = `kubectl config set-context ${ns.ctx} --namespace=${ns.ns}`;
   const cmd3 = `kubectl get pods`;
   shell.echo(cmd1)
   shell.exec(cmd1);
