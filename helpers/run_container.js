@@ -20,6 +20,13 @@ const runContainer = (context, containerConfig) => {
     if (flag.startsWith("-")) { flags[itr++] = flag }
     else flags[1] = flag;
   });
+
+  const env = !containerConfig.env ? '' : containerConfig.env.map(e => {
+    const key = Object.keys(e)[0];
+    const value = e[key];
+    return `-e ${key}=${value}`;
+  }).join(' ');
+
   const workingDir = `${context.root}/${name}`;
   let cmdPort = port;
   if (typeof port === 'number' || port.indexOf(':') === -1) {
@@ -30,7 +37,7 @@ const runContainer = (context, containerConfig) => {
   if (volume === false) {
     containerVolume = '';
   }
-  const run = `docker run ${flags[0]} ${containerPorts} ${containerVolume} --network ${context.name} --name ${containerConfig.name} ${containerConfig.name} ${containerCmd}`;
+  const run = `docker run ${env} ${flags[0]} ${containerPorts} ${containerVolume} --network ${context.name} --name ${containerConfig.name} ${containerConfig.name} ${containerCmd}`;
 
   shell.echo(run);
   shell.exec(run);
