@@ -9,6 +9,13 @@ const runContainer = (context, containerConfig) => {
     cmd = 'npm run dev',
     volume,
   } = containerConfig;
+  let containerPorts;
+  if (containerConfig.port instanceof Array) {
+    containerPorts = containerConfig.port.map((p) => `-p ${p}`).join(' ');
+  } else {
+    containerPorts = `-p ${port}`;
+  }
+
   context.options.forEach(flag => {
     if (flag.startsWith("-")) { flags[itr++] = flag }
     else flags[1] = flag;
@@ -23,7 +30,7 @@ const runContainer = (context, containerConfig) => {
   if (volume === false) {
     containerVolume = '';
   }
-  const run = `docker run ${flags[0]} -p ${port} ${containerVolume} --network ${context.name} --name ${containerConfig.name} ${containerConfig.name} ${containerCmd}`;
+  const run = `docker run ${flags[0]} ${containerPorts} ${containerVolume} --network ${context.name} --name ${containerConfig.name} ${containerConfig.name} ${containerCmd}`;
 
   shell.echo(run);
   shell.exec(run);
