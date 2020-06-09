@@ -44,6 +44,11 @@ const operations = {
   kpods,
   getVariables,
   setupDb,
+  brs: (context, search) => {
+    build(context, search);
+    stop(context, search);
+    run(context, search);
+  },
   init: (context) => {
     clone(context);
     createNetwork(context);
