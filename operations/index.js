@@ -34,7 +34,6 @@ const operations = {
   collection,
   install: installDependencies,
   i: installDependencies,
-  runDatabaseMigration,
   '-h': help,
   help,
   ksh,
@@ -44,6 +43,8 @@ const operations = {
   kpods,
   getVariables,
   setupDb,
+  dbMigrations: runDatabaseMigration,
+  runDatabaseMigration,
   brs: (context, search) => {
     build(context, search);
     stop(context, search);
@@ -52,9 +53,9 @@ const operations = {
   init: (context) => {
     clone(context);
     createNetwork(context);
-    installDependencies(context),
-    runDatabaseMigration(context),
+    installDependencies(context);
     build(context, 'all');
+    runDatabaseMigration();
   },
 };
 

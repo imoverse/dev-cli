@@ -5,7 +5,7 @@ module.exports = (context, search) => {
 
   const runDbMigration = (name) => {
     const target = `${context.root}/${name}`;
-    const cmd = `cd ${target} && npm run knex-local`;
+    const cmd = `cd ${target} && dev setupDb`;
     shell.echo(cmd)
     shell.exec(cmd);
   };

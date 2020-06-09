@@ -30,6 +30,8 @@ module.exports = () => {
 
   {green setupDb:}        Start the container of current folder, running the db-migration script
 
+  {green dbMigrations:}   Try to run database migrations for all containers.
+
   {green init:}           Update all source code with git pull.
 
   {green kns:}            Set the Kubernetes cluster based on the environment name.
