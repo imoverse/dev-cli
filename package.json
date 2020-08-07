@@ -11,7 +11,10 @@
     "shelljs": "^0.8.3",
     "yaml": "^1.5.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "ava": "^3.11.1",
+    "mock-require": "^3.0.3"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

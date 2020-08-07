@@ -1,5 +1,12 @@
 const shell = require('shelljs');
 
+const getPortMapping = (port) => {
+  if (typeof port === 'number' || port.indexOf(':') === -1) {
+    return `${port}:3000`;
+  }
+  return port;
+};
+
 const runContainer = (context, containerConfig) => {
   let flags = ['-d'];
   let itr = 0;
@@ -10,10 +17,11 @@ const runContainer = (context, containerConfig) => {
     volume,
   } = containerConfig;
   let containerPorts;
+  
   if (containerConfig.port instanceof Array) {
-    containerPorts = containerConfig.port.map((p) => `-p ${p}`).join(' ');
+    containerPorts = containerConfig.port.map((p) => `-p ${getPortMapping(p)}`).join(' ');
   } else {
-    containerPorts = `-p ${port}`;
+    containerPorts = `-p ${getPortMapping(port)}`;
   }
 
   context.options.forEach(flag => {
@@ -28,10 +36,7 @@ const runContainer = (context, containerConfig) => {
   }).join(' ');
 
   const workingDir = `${context.root}/${name}`;
-  let cmdPort = port;
-  if (typeof port === 'number' || port.indexOf(':') === -1) {
-    cmdPort = `${port}:3000`;
-  }
+
   let containerCmd = cmd === 'default' ? '' : cmd;
   let containerVolume = `-v ${workingDir}:/app`;
   if (volume === false) {
