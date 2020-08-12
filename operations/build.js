@@ -32,7 +32,6 @@ module.exports = (context, search) => {
     return;
   }
 
-
   fs.access('Dockerfile', fs.constants.F_OK, (err) => {
     if (err) {
       console.error('Current directory is missing Dockerfile');
