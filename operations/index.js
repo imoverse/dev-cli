@@ -18,6 +18,7 @@ const kenv = require('./kenv');
 const kpods = require('./kpods');
 const getVariables = require('./getVariables');
 const setupDb = require('./setupDb');
+const updateEnv = require('./updateEnv');
 
 const operations = {
   clone,
@@ -45,6 +46,7 @@ const operations = {
   setupDb,
   dbMigrations: runDatabaseMigration,
   runDatabaseMigration,
+  updateEnv,
   brs: (context, search) => {
     build(context, search);
     stop(context, search);
