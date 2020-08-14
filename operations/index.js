@@ -55,6 +55,7 @@ const operations = {
   init: (context) => {
     clone(context);
     createNetwork(context);
+    updateEnv(context),
     installDependencies(context);
     build(context, 'all');
     runDatabaseMigration();
