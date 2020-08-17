@@ -1,5 +1,5 @@
 const fs = require('fs');
-const findContainer = require('../helpers/find_container_in_list');
+const { container: findContainer } = require('../helpers/find');
 const runContainer = require('../helpers/run_container');
 
 

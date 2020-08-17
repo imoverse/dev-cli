@@ -1,4 +1,4 @@
-const findContainer = require('../helpers/find_container_in_list');
+const { container: findContainer } = require('../helpers/find');
 
 module.exports = (context, search) => {
   if (!context) {

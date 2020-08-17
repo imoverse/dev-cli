@@ -1,6 +1,6 @@
 const fs = require('fs');
 const shell = require('shelljs');
-const findContainer = require('../helpers/find_container_in_list');
+const { container: findContainer } = require('../helpers/find');
 
 const runCommand = (containerName) => {
   const cmd = `docker rm -f ${containerName}`;
