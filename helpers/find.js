@@ -21,18 +21,40 @@ const otherRepo = (context, search) => {
   return find(context.otherRepos, search);
 };
 
-const findAndApply = (context, search, func) => {
-  const container = find(context.containers, search);
-  if (container) {
-    return func(context, container);
+const findAndApply = (context, search, func, options = {}) => {
+  if (search === 'all') {
+    if (options.onlyContainers) {
+      return context.containers.map((r) => func(context, r));
+    }
+    if (options.onlyPackages) {
+      return context.packages.map((r) => func(context, r));
+    }
+    if (options.onlyOthers) {
+      return context.otherRepos.map((r) => func(context, r));
+    }
+
+    const all = context.containers.concat(context.packages).concat(context.otherRepos);
+    return all.map((r) => func(context, r));
   }
-  const package = find(context.packages, search);
-  if (package) {
-    return func(context, package);
+  if (!options.onlyOthers && !options.onlyPackages) {
+    const container = find(context.containers, search);
+    if (container) {
+      return func(context, container);
+    }
   }
-  const other = find(context.otherRepos, search);
-  if (other) {
-    return func(context, other);
+  
+  if (!options.onlyOthers && !options.onlyContainers) {
+    const package = find(context.packages, search);
+    if (package) {
+      return func(context, package);
+    }
+  }
+
+  if (!options.onlyPackages && !options.onlyContainers) {
+    const other = find(context.otherRepos, search);
+    if (other) {
+      return func(context, other);
+    }
   }
 }
 
