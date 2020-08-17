@@ -1,6 +1,5 @@
 const collection = require('./collection');
-const clone = require('./clone');
-const pull = require('./pull');
+const git = require('./git');
 const build = require('./build');
 const run = require('./run');
 const stop = require('./stop');
@@ -19,10 +18,11 @@ const kpods = require('./kpods');
 const getVariables = require('./getVariables');
 const setupDb = require('./setupDb');
 const updateEnv = require('./updateEnv');
+const initDevContext = require('./initDevContext');
 
 const operations = {
-  clone,
-  pull,
+  clone: (context, search) => git(context, 'clone', search),
+  pull: (context, search) => git(context, 'pull', search),
   build,
   run,
   stop,
@@ -47,13 +47,15 @@ const operations = {
   dbMigrations: runDatabaseMigration,
   runDatabaseMigration,
   updateEnv,
+  initDevContext,
   brs: (context, search) => {
     build(context, search);
     stop(context, search);
     run(context, search);
   },
-  init: (context) => {
-    clone(context);
+  init: (context, project, envFolder) => {
+    initDevContext([project, envFolder]);
+    git(context, 'clone');
     createNetwork(context);
     updateEnv(context),
     installDependencies(context);
