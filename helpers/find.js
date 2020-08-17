@@ -21,8 +21,24 @@ const otherRepo = (context, search) => {
   return find(context.otherRepos, search);
 };
 
+const findAndApply = (context, search, func) => {
+  const container = find(context.containers, search);
+  if (container) {
+    return func(context, container);
+  }
+  const package = find(context.packages, search);
+  if (package) {
+    return func(context, package);
+  }
+  const other = find(context.otherRepos, search);
+  if (other) {
+    return func(context, other);
+  }
+}
+
 module.exports = { 
   container,
   package,
   otherRepo,
+  findAndApply,
 };
