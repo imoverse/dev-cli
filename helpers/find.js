@@ -8,6 +8,12 @@ const find = (collection, search) => {
   return match;
 };
 
+const getSearchFromCwd = () => {
+  const cwd = process.cwd();
+  const parts = cwd.split(/(\/|\\)/);
+
+  return parts.pop();
+}
 
 const container = (context, search) => {
   return find(context.containers, search);
@@ -36,22 +42,23 @@ const findAndApply = (context, search, func, options = {}) => {
     const all = context.containers.concat(context.packages).concat(context.otherRepos);
     return all.map((r) => func(context, r));
   }
+
   if (!options.onlyOthers && !options.onlyPackages) {
-    const container = find(context.containers, search);
+    const container = find(context.containers, search || getSearchFromCwd());
     if (container) {
       return func(context, container);
     }
   }
   
   if (!options.onlyOthers && !options.onlyContainers) {
-    const package = find(context.packages, search);
+    const package = find(context.packages, search || getSearchFromCwd());
     if (package) {
       return func(context, package);
     }
   }
 
   if (!options.onlyPackages && !options.onlyContainers) {
-    const other = find(context.otherRepos, search);
+    const other = find(context.otherRepos, search || getSearchFromCwd());
     if (other) {
       return func(context, other);
     }

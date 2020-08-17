@@ -107,3 +107,17 @@ test('findAndApply should run on matching other if onlyOthers flag is set', t =>
   }, { onlyOthers: true, });
   t.is(index, 1);
 });
+
+test('findAndApply should default to cwd if search is not supplied', t => {
+  const originalCwd = process.cwd;
+  process.cwd = () => {
+    return '/home/foo/dev/other1'
+  };
+  let index = 0;
+  findAndApply(context, false, (ctx, repo) => {
+    index += 1;
+    t.is(repo.name, 'other1');
+  });
+  t.is(index, 1);
+  process.cwd = originalCwd;
+});
