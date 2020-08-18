@@ -1,14 +1,15 @@
 const fs = require('fs');
 const shell = require('shelljs');
+const chalk = require('chalk');
 const { findAndApply } = require('../helpers/find');
 
 module.exports = (context, search) => {
   findAndApply(context, search, (_, repo) => {
     const path = !search ? '.' : `${context.root}/${repo.name}`;
 
-    fs.access(path !== '.' ? `${path}/Dockerfile` : 'Dockerfile', fs.constants.F_OK, (err) => {
+    fs.access(`${repo.path}/Dockerfile`, fs.constants.F_OK, (err) => {
       if (err) {
-        console.error(`${path === '.' ? 'Current directory' : path} is missing Dockerfile`);
+        console.error(chalk`{red ERROR:} ${!search ? 'Current directory' : repo.path} is missing Dockerfile`);
         return false;
       }
       let dockerfile = '';
