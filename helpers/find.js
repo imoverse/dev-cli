@@ -1,3 +1,5 @@
+const chalk = require('chalk');
+
 const find = (collection, search) => {
   const match = collection.find((item) => {
     if(item.name.indexOf(search) > -1) {
@@ -63,6 +65,7 @@ const findAndApply = (context, search, func, options = {}) => {
       return func(context, other);
     }
   }
+  console.log(chalk`Could not find anything matching {blue "${search}"}`);
 }
 
 module.exports = { 
