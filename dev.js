@@ -16,8 +16,8 @@ if (args.operation === 'initDevContext') {
 
 let context;
 try {
-  const getDevRoot = require('./helpers/get_dev_root');
-  context = getDevRoot();
+  const getContext = require('./helpers/get_context');
+  context = getContext();
 } catch (err) {
   console.log(err.message);
   process.exit(4);
