@@ -1,16 +1,8 @@
-const { container: findContainer } = require('../helpers/find');
+const { findAndApply } = require('../helpers/find');
 
 module.exports = (context, search) => {
-  if (!context) {
-    console.error('Missing context');
-    return;
-  }
-
-  const match = findContainer(context, search);
-
-  if (match) {
-    console.log(`${context.root}/${match.name}`);
-    return;
-  }
-  console.log(context.root);
+  const match = findAndApply(context, search, (_, repo) => {
+    return `${context.root}/${repo.name}`;
+  });
+  console.log(match || context.root);
 };

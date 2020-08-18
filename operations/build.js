@@ -1,6 +1,6 @@
 const fs = require('fs');
 const shell = require('shelljs');
-const { container: findContainer, findAndApply } = require('../helpers/find');
+const { findAndApply } = require('../helpers/find');
 
 module.exports = (context, search) => {
   findAndApply(context, search, (_, repo) => {
