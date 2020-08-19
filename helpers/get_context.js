@@ -33,14 +33,14 @@ module.exports = () => {
       const context = yaml.parse(content);
       context.root = currentPath;
       context.currentContainer = getCurrentContainer(context);
-      context.containers.forEach((r) => {
-        r.path = `${context.root}/${r.name}`;
+      context.containers.forEach((repo) => {
+        repo.path = `${context.root}/${repo.name}`;
       });
       context.otherRepos.forEach((r) => {
-        r.path = `${context.root}/${r.name}`;
+        repo.path = `${context.root}/${repo.name}`;
       });
       context.packages.forEach((r) => {
-        r.path = `${context.root}/packages/${r.name}`;
+        repo.path = `${context.root}/packages/${repo.name}`;
       });
       
       return context;

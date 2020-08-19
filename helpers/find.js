@@ -32,17 +32,17 @@ const otherRepo = (context, search) => {
 const findAndApply = (context, search, func, options = {}) => {
   if (search === 'all') {
     if (options.onlyContainers) {
-      return context.containers.map((r) => func(context, r));
+      return context.containers.map((repo) => func(context, repo));
     }
     if (options.onlyPackages) {
-      return context.packages.map((r) => func(context, r));
+      return context.packages.map((repo) => func(context, repo));
     }
     if (options.onlyOthers) {
-      return context.otherRepos.map((r) => func(context, r));
+      return context.otherRepos.map((repo) => func(context, repo));
     }
 
     const all = context.containers.concat(context.packages).concat(context.otherRepos);
-    return all.map((r) => func(context, r));
+    return all.map((repo) => func(context, repo));
   }
 
   if (!options.onlyOthers && !options.onlyPackages) {
