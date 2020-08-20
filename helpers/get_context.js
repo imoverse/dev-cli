@@ -33,16 +33,11 @@ module.exports = () => {
       const context = yaml.parse(content);
       context.root = currentPath;
       context.currentContainer = getCurrentContainer(context);
-      context.containers.forEach((repo) => {
-        repo.path = `${context.root}/${repo.name}`;
-      });
-      context.otherRepos.forEach((r) => {
-        repo.path = `${context.root}/${repo.name}`;
-      });
-      context.packages.forEach((r) => {
-        repo.path = `${context.root}/packages/${repo.name}`;
-      });
-      
+      const applyPath = (relativePath = '') => (repo) => ({ ...repo, path: `${context.root}/${relativePath}${repo.name}` });
+      context.containers = (context.containers || []).map(applyPath());
+      context.packages = (context.packages || []).map(applyPath('packages/'));
+      context.otherRepos = (context.otherRepos || []).map(applyPath());
+
       return context;
     }
     parentFolders.pop();
