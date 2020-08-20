@@ -18,11 +18,18 @@ test('Should run docker command', t => {
       // noop
     },
   });
+  mock('fs', {
+    access: (file, mode, cb) => {
+      cb(null);
+    },
+    constants: { F_OK: 1 }
+  });
   mock.reRequire('../helpers/run_container');
   sut = mock.reRequire('../operations/run');
   sut(getContextTemplate(), containerName);
 
   mock.stop('shelljs');
+  mock.stop('fs');
 });
 
 test('Should bind to container port 3000 if shorthand mapping is provided', t => {
@@ -34,6 +41,12 @@ test('Should bind to container port 3000 if shorthand mapping is provided', t =>
       // noop
     },
   });
+  mock('fs', {
+    access: (file, mode, cb) => {
+      cb(null);
+    },
+    constants: { F_OK: 1 }
+  });
   mock.reRequire('../helpers/run_container');
   sut = mock.reRequire('../operations/run');
   const ctx = getContextTemplate();
@@ -42,6 +55,7 @@ test('Should bind to container port 3000 if shorthand mapping is provided', t =>
   sut(ctx, containerName);
 
   mock.stop('shelljs');
+  mock.stop('fs');
 });
 
 
@@ -54,6 +68,12 @@ test('Should override cmd if provided', t => {
       // noop
     },
   });
+  mock('fs', {
+    access: (file, mode, cb) => {
+      cb(null);
+    },
+    constants: { F_OK: 1 }
+  });
   mock.reRequire('../helpers/run_container');
   sut = mock.reRequire('../operations/run');
 
@@ -62,6 +82,7 @@ test('Should override cmd if provided', t => {
   sut(ctx, containerName);
 
   mock.stop('shelljs');
+  mock.stop('fs');
 });
 
 test('Should map env to -e flags', t => {
@@ -73,6 +94,12 @@ test('Should map env to -e flags', t => {
       // noop
     },
   });
+  mock('fs', {
+    access: (file, mode, cb) => {
+      cb(null);
+    },
+    constants: { F_OK: 1 }
+  });
   mock.reRequire('../helpers/run_container');
   sut = mock.reRequire('../operations/run');
   const ctx = getContextTemplate();
@@ -81,6 +108,7 @@ test('Should map env to -e flags', t => {
   sut(ctx, containerName);
 
   mock.stop('shelljs');
+  mock.stop('fs');
 });
 
 test('Should have source folder as a volume', t => {
@@ -92,12 +120,19 @@ test('Should have source folder as a volume', t => {
       // noop
     },
   });
+  mock('fs', {
+    access: (file, mode, cb) => {
+      cb(null);
+    },
+    constants: { F_OK: 1 }
+  });
   mock.reRequire('../helpers/run_container');
   sut = mock.reRequire('../operations/run');
   
   sut(getContextTemplate(), containerName);
 
   mock.stop('shelljs');
+  mock.stop('fs');
 });
 
 
@@ -110,6 +145,12 @@ test('Should not mount volume if volume is false.', t => {
       // noop
     },
   });
+  mock('fs', {
+    access: (file, mode, cb) => {
+      cb(null);
+    },
+    constants: { F_OK: 1 }
+  });
   mock.reRequire('../helpers/run_container');
   sut = mock.reRequire('../operations/run');
   const ctx = getContextTemplate();
@@ -117,4 +158,5 @@ test('Should not mount volume if volume is false.', t => {
   sut(ctx, containerName);
 
   mock.stop('shelljs');
+  mock.stop('fs');
 });

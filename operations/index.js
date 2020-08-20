@@ -10,13 +10,12 @@ const kns = require('./kns');
 const klogs = require('./klogs');
 const help = require('./help');
 const installDependencies = require('./installDependencies');
-const runDatabaseMigration = require('./runDatabaseMigration');
+const dbMigration = require('./dbMigration');
 const ksh = require('./ksh');
 const kproxy = require('./kproxy');
 const kenv = require('./kenv');
 const kpods = require('./kpods');
 const getVariables = require('./getVariables');
-const setupDb = require('./setupDb');
 const updateEnv = require('./updateEnv');
 const initDevContext = require('./initDevContext');
 
@@ -43,9 +42,7 @@ const operations = {
   pods: kpods,
   kpods,
   getVariables,
-  setupDb,
-  dbMigrations: runDatabaseMigration,
-  runDatabaseMigration,
+  dbMigration,
   updateEnv,
   initDevContext,
   brs: (context, search) => {

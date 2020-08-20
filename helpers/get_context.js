@@ -18,7 +18,7 @@ const getCurrentContainer = (context) => {
   return null;
 }
 
-module.exports = function getDevRoot() {
+module.exports = () => {
   const dirSeperator = process.platform === 'win32' ? "\\" : '/';
   const cwd = process.cwd();
   const parentFolders = cwd.split(path.sep);
@@ -33,6 +33,16 @@ module.exports = function getDevRoot() {
       const context = yaml.parse(content);
       context.root = currentPath;
       context.currentContainer = getCurrentContainer(context);
+      context.containers.forEach((repo) => {
+        repo.path = `${context.root}/${repo.name}`;
+      });
+      context.otherRepos.forEach((r) => {
+        repo.path = `${context.root}/${repo.name}`;
+      });
+      context.packages.forEach((r) => {
+        repo.path = `${context.root}/packages/${repo.name}`;
+      });
+      
       return context;
     }
     parentFolders.pop();

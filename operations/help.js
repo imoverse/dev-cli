@@ -4,22 +4,27 @@ module.exports = () => {
   console.log(chalk`
 {blue ${chalk.bold('Arguments')}:}
   The available operations are listed. Most operations can take a string as an additional argument. The containers are matched against this string and the first match is returned.
-  Example: {bgGray ${chalk.green('dev build subscr')}} results in building the subscription-api whereas {bgGray ${chalk.green('dev build')}} iterates over all containers and build them.
+  Example: {bgGray ${chalk.green('dev build subscr')}} results in building the subscription-api whereas {bgGray ${chalk.green('dev build all')}} iterates over all containers and build them.
+  If the search is omitted, the search will be aggregated from the current working directory.
 
 {blue ${chalk.bold('Operations')}:}
 
   {green clone:}          Clones all repositories. If an argument is given, the first 
-                  matching repository is cloned.
+                  matching repository is cloned. Support {gray [search] and [all]. Default [.]}
 
-  {green pull:}           Update all source code with git pull.
+  {green pull:}           Update all source code with git pull. Support {gray [search] and [all]. Default [.]}
 
-  {green build:}          Build container.
+  {green build:}          Build container. Support {gray [search] and [all]. Default [.]}
 
   {green init:}           WIP: Setup entire dev development.
 
-  {green run:}            Start container. Port may be exposed based om context.
+  {green run:}            Start container. Port may be exposed based om context. Support {gray [search] and [all]. Default [.]}
 
-  {green brs:}            Shortcut for build, restart
+  {green stop:}           Stop container(s). Support {gray [search] and [all]. Default [.]}
+
+  {green brs:}            Shortcut for build and restart. Support {gray [search] and [all]. Default [.]}
+
+  {green install:}        Install npm dependencies. Support {gray [search] and [all]. Default [.]}
 
   {green createNetwork:}  The containers are isolated in it's own network which 
                   is created by running createNetwork.
@@ -28,9 +33,7 @@ module.exports = () => {
                   using startExternal. Keep in mind that these containers 
                   also has to be present in the context.
 
-  {green setupDb:}        Start the container of current folder, running the db-migration script
-
-  {green dbMigrations:}   Try to run database migrations for all containers.
+  {green dbMigration:}   Run database migrations in intermediate container. Support {gray [search] and [all]. Default [.]}
 
   {green init:}           Update all source code with git pull.
 

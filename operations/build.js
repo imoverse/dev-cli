@@ -1,48 +1,24 @@
 const fs = require('fs');
 const shell = require('shelljs');
-const { container: findContainer } = require('../helpers/find');
-
-const runCommand = (containerName, path = '.') => {
-  let dockerfile = '';
-  if (path !== '.') {
-    dockerfile = `-f ${path}/Dockerfile`;
-  }
-  const cmd = `docker build -t ${containerName} ${dockerfile} ${path}`;
-  shell.echo(cmd)
-  shell.exec(cmd);
-};
+const chalk = require('chalk');
+const { findAndApply } = require('../helpers/find');
 
 module.exports = (context, search) => {
-  if (search === 'all') {
-    context.containers.forEach((c) => {
-      const path = `${context.root}/${c.name}`;
-      runCommand(c.name, path);
+  findAndApply(context, search, (_, repo) => {
+    const path = !search ? '.' : `${context.root}/${repo.name}`;
+
+    fs.access(`${repo.path}/Dockerfile`, fs.constants.F_OK, (err) => {
+      if (err) {
+        console.error(chalk`{red ERROR:} ${!search ? 'Current directory' : repo.path} is missing Dockerfile`);
+        return false;
+      }
+      let dockerfile = '';
+      if (path !== '.') {
+        dockerfile = `-f ${path}/Dockerfile`;
+      }
+      const cmd = `docker build -t ${repo.name} ${dockerfile} ${path}`;
+      shell.echo(cmd)
+      shell.exec(cmd);
     });
-    return;
-  }
-
-  if (search) {
-    const container = findContainer(context, search);
-    if (container) {
-      const path = `${context.root}/${container.name}`;
-      runCommand(container.name, path);
-    } else {
-      console.error(`Could not find container matching '${search}'`);
-    }
-    return;
-  }
-
-  fs.access('Dockerfile', fs.constants.F_OK, (err) => {
-    if (err) {
-      console.error('Current directory is missing Dockerfile');
-      return;
-    }
-    const cwd = process.cwd();
-    if (cwd.lastIndexOf('\\') !== -1) {
-      containerName = cwd.substring(cwd.lastIndexOf('\\') + 1);
-    } else {
-      containerName = cwd.substring(cwd.lastIndexOf('/') + 1);
-    }
-    runCommand(containerName);
-  });
+  }, { onlyContainers: true });
 };
