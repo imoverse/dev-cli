@@ -1,0 +1,7 @@
+bases:
+  - ../../base
+namespace: imove-prod
+patchesStrategicMerge:
+  - deployment.yml
+  - secrets.yml
+  - config.yml

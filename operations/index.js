@@ -18,6 +18,7 @@ const kpods = require('./kpods');
 const getVariables = require('./getVariables');
 const updateEnv = require('./updateEnv');
 const initDevContext = require('./initDevContext');
+const createService = require('./createService');
 
 const operations = {
   clone: (context, search) => git(context, 'clone', search),
@@ -45,6 +46,7 @@ const operations = {
   dbMigration,
   updateEnv,
   initDevContext,
+  createService,
   brs: (context, search) => {
     build(context, search);
     stop(context, search);

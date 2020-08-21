@@ -1,0 +1,142 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{projectName}}
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    spec:
+      terminationGracePeriodSeconds: 20
+      containers:
+        - name: {{projectName}}
+          image: imoveregistry.azurecr.io/{{projectName}}:${DOCKER_TAG}
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: 200m
+              memory: 300Mi
+            requests:
+              cpu: 50m
+              memory: 50Mi
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 10
+            timeoutSeconds: 1
+            periodSeconds: 15
+          env:
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: LOG_LEVEL
+            - name: MQUSER
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: MQUSER
+            - name: STSHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: STSHOST
+            - name: STSISSUER
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: STSISSUER
+            - name: AUDIENCE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: AUDIENCE
+            - name: COMMANDCENTER
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: COMMANDCENTER
+            - name: MQPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{projectName}}
+                  key: MQPASSWORD
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{projectName}}
+                  key: PGPASSWORD
+            - name: PGUSER
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: PGUSER
+            - name: PGHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: PGHOST
+            - name: PGDATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: PGDATABASE
+            - name: PGUSESSL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: PGUSESSL
+            - name: MQHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: MQHOST
+      initContainers:
+        - name: run-db-migration
+          image: imoveregistry.azurecr.io/{{projectName}}:${DOCKER_TAG}
+          command: ["npm", "run", "db-migration"]
+          env:
+            - name: PGADMINUSER
+              valueFrom:
+                secretKeyRef:
+                  name: {{projectName}}
+                  key: PGADMINUSER
+            - name: PGADMINPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{projectName}}
+                  key: PGADMINPASSWORD
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{projectName}}
+                  key: PGPASSWORD
+            - name: PGUSER
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: PGUSER
+            - name: PGHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: PGHOST
+            - name: PGDATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: PGDATABASE
+            - name: PGUSESSL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: PGUSESSL
+
+      imagePullSecrets:
+        - name: imoveregistry

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{projectNAme}}
+data:
+  MQHOST: imove-events-rabbitmq
+  LOG_LEVEL: debug
+  AUDIENCE: TODO

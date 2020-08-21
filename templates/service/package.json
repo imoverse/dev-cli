@@ -1,0 +1,54 @@
+{
+  "name": "{{projectName}}",
+  "version": "1.0.0",
+  "description": "{{description}}",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "npx concurrently 'npm run lint' 'npx ava --watch --verbose'",
+    "lint": "node ./node_modules/.bin/eslint .",
+    "dev": "nodemon -r dotenv/config src/index.js",
+    "watch": "npx concurrently 'npm run lint' 'npm run dev'",
+    "db-migration": "node node_modules/@imoverse/db-migration/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imoverse/{{projectName}}.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/imoverse/{{projectName}}/issues"
+  },
+  "homepage": "https://github.com/imoverse/{{projectName}}#readme",
+  "dependencies": {
+    "@imoverse/authorize": "^1.0.2",
+    "@imoverse/logger": "^1.0.0",
+    "@imoverse/mq": "^2.0.0",
+    "@imoverse/skapet": "^1.5.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "daggy": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "monet": "^0.9.1",
+    "pg": "^8.3.0",
+    "ramda": "^0.27.1",
+    "yup": "^0.29.3"
+  },
+  "devDependencies": {
+    "@imoverse/db-migration": "^4.0.0",
+    "ava": "^3.11.1",
+    "concurrently": "^5.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-node": "^4.1.0",
+    "nodemon": "^2.0.4"
+  },
+  "ava": {
+    "files": [
+      "tests/**/*"
+    ]
+  }
+}
