@@ -2,9 +2,11 @@ const { findAndApply } = require('../helpers/find');
 const shell = require('shelljs');
 
 module.exports = (context, search) => {
-  findAndApply(context, search, (_, {path}) => {
+  const fn = (_, {path}) => {
     const cmd = `cd ${path} && npm i`;
     shell.echo(cmd)
     shell.exec(cmd);
-  });
+  };
+  findAndApply(context, search, fn, { onlyContainers: true });
+  findAndApply(context, search, fn, { onlyPackages: true });
 };

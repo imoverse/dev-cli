@@ -11,7 +11,7 @@ module.exports = (context, envFolder = process.env.IMOVE_ENV_FOLDER ? process.en
       return process.exit(1);
     }
     containers.forEach((c) => {
-      cmd = `cp ${envFolder}/${c}.env ${context.root}/${c}/.env`;
+      cmd = `cp ${envFolder}/env/${c}.env ${context.root}/${c}/.env`;
       shell.exec(cmd);
     });
   });

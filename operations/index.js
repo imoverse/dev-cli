@@ -19,6 +19,7 @@ const getVariables = require('./getVariables');
 const updateEnv = require('./updateEnv');
 const initDevContext = require('./initDevContext');
 const createService = require('./createService');
+const getContext = require('../helpers/get_context');
 
 const operations = {
   clone: (context, search) => git(context, 'clone', search),
@@ -52,14 +53,17 @@ const operations = {
     stop(context, search);
     run(context, search);
   },
-  init: (context, project, envFolder) => {
-    initDevContext([project, envFolder]);
-    git(context, 'clone');
-    createNetwork(context);
-    updateEnv(context),
-    installDependencies(context);
-    build(context, 'all');
-    runDatabaseMigration();
+  init: (project, envFolder) => {
+    initDevContext(project, envFolder)
+      .then(() => {
+        const context = getContext();
+        git(context, 'clone', 'all');
+        createNetwork(context);
+        updateEnv(context),
+        installDependencies(context, 'all');
+        build(context, 'all');
+        dbMigration(context, 'all');
+      });
   },
 };
 

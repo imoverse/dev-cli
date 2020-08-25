@@ -10,7 +10,12 @@ if (args.operation === 'help') {
 }
 
 if (args.operation === 'initDevContext') {
-  operations.initDevContext(args.options);
+  operations.initDevContext.apply(null, args.options);
+  return;
+}
+
+if (args.operation === 'init') {
+  operations.init.apply(null, args.options);
   return;
 }
 

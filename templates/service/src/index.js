@@ -16,7 +16,7 @@ app.use(require('body-parser').json());
 
 app.get('/healthz', (req, res) => res.sendStatus(200));
 
-app.use('/{{projectName}}/TODO', {{projectName}}Router);
+app.use('/{{projectName}}/ENTITY', {{projectName}}Router);
 
 mq
   .addLogger(log)

@@ -16,12 +16,26 @@ module.exports = (context) => {
       initial: `imove plattform service`
     },
     {
-      type: 'list',
-      name: 'entities',
-      message: 'Entities (primary, [seconday], [secondary]...):'
+      type: 'text',
+      name: 'testDbUser',
+      message: 'Test: Username for the database user. This should be unique to the service'
+    },
+    {
+      type: 'text',
+      name: 'testDbPassword',
+      message: 'Test: Password for the database user. This should be unique to the service'
+    },
+    {
+      type: 'text',
+      name: 'prodDbUser',
+      message: 'Test: Username for the database user. This should be unique to the service'
+    },
+    {
+      type: 'text',
+      name: 'prodDbPassword',
+      message: 'Test: Password for the database user. This should be unique to the service'
     }
   ];
-
 
   prompts(questions)
   .then((values) => {
