@@ -1,8 +1,8 @@
 const shell = require('shelljs');
- 
+
 module.exports = (context, pod) => {
   const pods = shell.exec(`kubectl get pods | grep "${pod}"`, { silent: true }).stdout;
-  const lines = pods.split("\n");
+  const lines = pods.split('\n');
   const line = lines[0];
   const podMatch = line.match(/([a-z0-9\-]+)\s/i);
   if (podMatch) {
@@ -10,9 +10,9 @@ module.exports = (context, pod) => {
     const containerMatch = pod.match(/(.*)\-[a-z0-9]+\-[a-z0-9]+/);
     if (containerMatch) {
       const containerName = containerMatch[1];
-      let container = context.containers.find((c) => c.name === containerName);
+      let container = context.containers.find(c => c.name === containerName);
       if (!container) {
-        const cn = Object.keys(context.external).find((c) => c === containerName);
+        const cn = Object.keys(context.external).find(c => c === containerName);
         if (!cn) {
           console.error('Could not find container');
           return;
@@ -24,7 +24,7 @@ module.exports = (context, pod) => {
       shell.echo(cmd);
       shell.exec(cmd);
     } else {
-      console.error(`Could not find container. Found pod name "${podMatch[1]}". Expected format with at least two dashes.`)
+      console.error(`Could not find container. Found pod name "${podMatch[1]}". Expected format with at least two dashes.`);
     }
   } else {
     console.error(`Could not find any pod matching "${pod}"`);

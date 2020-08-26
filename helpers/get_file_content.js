@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const getFileContents = (file) => {
+const getFileContents = file => {
   try {
     return fs.readFileSync(file, 'utf-8');
   } catch (ex) {

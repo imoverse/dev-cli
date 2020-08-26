@@ -17,18 +17,6 @@ const getSearchFromCwd = () => {
   return parts.pop();
 }
 
-const container = (context, search) => {
-  return find(context.containers, search);
-};
-
-const package = (context, search) => {
-  return find(context.packages, search);
-};
-
-const otherRepo = (context, search) => {
-  return find(context.otherRepos, search);
-};
-
 const findAndApply = (context, search, func, options = {}) => {
   if (search === 'all') {
     if (options.onlyContainers) {
@@ -69,8 +57,5 @@ const findAndApply = (context, search, func, options = {}) => {
 }
 
 module.exports = { 
-  container,
-  package,
-  otherRepo,
   findAndApply,
 };
