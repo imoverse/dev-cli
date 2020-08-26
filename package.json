@@ -8,16 +8,27 @@
   },
   "dependencies": {
     "chalk": "^4.0.0",
+    "handlebars-copy": "^1.7.0",
+    "prompts": "^2.3.2",
     "shelljs": "^0.8.3",
     "yaml": "^1.5.1"
   },
   "devDependencies": {
     "ava": "^3.11.1",
-    "mock-require": "^3.0.3"
+    "mock-require": "^3.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-node": "^4.1.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "ava": {
+    "files": [
+      "tests/**/*",
+      "!templates/**/*"
+    ]
+  }
 }

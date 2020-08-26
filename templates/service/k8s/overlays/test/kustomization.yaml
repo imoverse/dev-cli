@@ -1,0 +1,6 @@
+bases:
+  - ../../base
+namespace: imove-test
+patchesStrategicMerge:
+  - secrets.yml
+  - config.yml

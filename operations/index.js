@@ -18,6 +18,8 @@ const kpods = require('./kpods');
 const getVariables = require('./getVariables');
 const updateEnv = require('./updateEnv');
 const initDevContext = require('./initDevContext');
+const createService = require('./createService');
+const getContext = require('../helpers/get_context');
 
 const operations = {
   clone: (context, search) => git(context, 'clone', search),
@@ -45,19 +47,23 @@ const operations = {
   dbMigration,
   updateEnv,
   initDevContext,
+  createService,
   brs: (context, search) => {
     build(context, search);
     stop(context, search);
     run(context, search);
   },
-  init: (context, project, envFolder) => {
-    initDevContext([project, envFolder]);
-    git(context, 'clone');
-    createNetwork(context);
-    updateEnv(context),
-    installDependencies(context);
-    build(context, 'all');
-    runDatabaseMigration();
+  init: (project, envFolder) => {
+    initDevContext(project, envFolder)
+      .then(() => {
+        const context = getContext();
+        git(context, 'clone', 'all');
+        createNetwork(context);
+        updateEnv(context),
+        installDependencies(context, 'all');
+        build(context, 'all');
+        dbMigration(context, 'all');
+      });
   },
 };
 

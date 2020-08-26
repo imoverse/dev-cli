@@ -51,5 +51,4 @@ module.exports = () => {
   {green kproxy:}         Create a proxy to the kubernetes instance of matching container
 
   `);
-  
 };

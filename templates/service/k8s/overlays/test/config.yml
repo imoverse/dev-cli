@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{projectName}}
+data:
+  MQUSER: imove
+  LOG_LEVEL: debug
+  COMMANDCENTER: https://admin.test.imove.no
+  STSHOST: https://id.test.imove.no
+  STSISSUER: https://id.test.imove.no
+  AUDIENCE: TODO
+  PGUSER: {{projectName}}_imove@imove-pg.postgres.database.azure.com
+  PGHOST: imove-pg.postgres.database.azure.com
+  PGDATABASE: {{projectName}}
+  PGUSESSL: "true"

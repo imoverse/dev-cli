@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{projectName}}
+data:
+  MQUSER: imove
+  LOG_LEVEL: info
+  STSHOST: https://id.imove.no
+  STSISSUER: https://id.imove.no
+  AUDIENCE: TODO
+  PGUSER: {{projectName}}_imove@imove-pg-prod.postgres.database.azure.com
+  PGHOST: imove-pg-prod.postgres.database.azure.com
+  PGDATABASE: {{projectName}}
+  PGUSESSL: "true"

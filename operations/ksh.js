@@ -1,8 +1,8 @@
 const shell = require('shelljs');
- 
+
 module.exports = (context, pod) => {
   const pods = shell.exec(`kubectl get pods | grep "${pod}"`, { silent: true }).stdout;
-  const lines = pods.split("\n");
+  const lines = pods.split('\n');
   const line = lines[0];
   const podMatch = line.match(/([a-z0-9\-]+)\s/i);
   if (podMatch) {

@@ -6,12 +6,17 @@ const args = getArgs();
 
 if (args.operation === 'help') {
   operations.help();
-  return;
+  process.exit(0);
 }
 
 if (args.operation === 'initDevContext') {
-  operations.initDevContext(args.options);
-  return;
+  operations.initDevContext.apply(null, args.options);
+  process.exit(0);
+}
+
+if (args.operation === 'init') {
+  operations.init.apply(null, args.options);
+  process.exit(0);
 }
 
 let context;
