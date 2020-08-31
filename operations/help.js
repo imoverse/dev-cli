@@ -38,6 +38,9 @@ module.exports = () => {
 
   {green init:}           Update all source code with git pull.
 
+  {green createService:}  Create a new service from an included template. Create an empty folder and enter it before  
+                  running the command.
+
   {green kns:}            Set the Kubernetes cluster based on the environment name.
 
   {green klogs:}          Print the log of the mathcing container in the kubernetes cluster.
@@ -47,7 +50,7 @@ module.exports = () => {
   {green pods:}           List the pods for the current namespace
 
   {green ksh:}            Get a shell into the matching pod. Only the command is 
-                          output, it has to be copied and run manually.
+                  output, it has to be copied and run manually.
 
   {green kproxy:}         Create a proxy to the kubernetes instance of matching container
 
