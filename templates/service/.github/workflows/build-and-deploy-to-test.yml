@@ -10,16 +10,16 @@ env:
   REPO_NAME: {{projectName}}
   ACR_NAME: imoveregistry.azurecr.io
   ACR_USER: b6097ccd-f1e2-4c32-bf36-dca746ea9208
-  ACR_PASSWORD: ${{secrets.ACR_PASSWORD}}
+  ACR_PASSWORD: $\{{secrets.ACR_PASSWORD}}
   TENANT_ID: fec560d8-3403-4cd9-b7bb-042e319b52a0
   TEST_CLIENT_ID: 5d258cbf-a9bc-4ba6-ba0d-b2fdf0d4a6a5
-  TEST_CLIENT_SECRET: ${{secrets.TEST_CLIENT_SECRET}}
+  TEST_CLIENT_SECRET: $\{{secrets.TEST_CLIENT_SECRET}}
   TEST_CLUSTER_NAME: imove-test-1
   PROD_CLIENT_ID: 11c40d42-8b4b-4d5c-ac67-693044a50ef0
-  PROD_CLIENT_SECRET: ${{secrets.PROD_CLIENT_SECRET}}
+  PROD_CLIENT_SECRET: $\{{secrets.PROD_CLIENT_SECRET}}
   PROD_CLUSTER_NAME: imove-prod-1
   MILESCLOUD_REGISTRY_USER: milesdrift
-  MILESCLOUD_REGISTRY_PASSWORD: ${{secrets.MILESCLOUD_REGISTRY_PASSWORD}}
+  MILESCLOUD_REGISTRY_PASSWORD: $\{{secrets.MILESCLOUD_REGISTRY_PASSWORD}}
 
 jobs:
   build-image:
@@ -30,8 +30,8 @@ jobs:
         run: |
           export GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-8)
           docker login $ACR_NAME -u $ACR_USER -p $ACR_PASSWORD
-          docker build --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} . --tag "$ACR_NAME/$REPO_NAME:latest" --tag "$ACR_NAME/$REPO_NAME:${{github.run_number}}" --tag "$ACR_NAME/$REPO_NAME:$GITHUB_SHA_SHORT" --tag "$ACR_NAME/$REPO_NAME:$GITHUB_SHA"
-          docker push $ACR_NAME/$REPO_NAME:${{github.run_number}}
+          docker build --build-arg NPM_TOKEN=$\{{ secrets.NPM_TOKEN }} . --tag "$ACR_NAME/$REPO_NAME:latest" --tag "$ACR_NAME/$REPO_NAME:$\{{github.run_number}}" --tag "$ACR_NAME/$REPO_NAME:$GITHUB_SHA_SHORT" --tag "$ACR_NAME/$REPO_NAME:$GITHUB_SHA"
+          docker push $ACR_NAME/$REPO_NAME:$\{{github.run_number}}
           docker push $ACR_NAME/$REPO_NAME:$GITHUB_SHA_SHORT
           docker push $ACR_NAME/$REPO_NAME:$GITHUB_SHA
   deploy-to-test:
@@ -45,13 +45,3 @@ jobs:
           docker login registry.gitlab.com -u $MILESCLOUD_REGISTRY_USER -p $MILESCLOUD_REGISTRY_PASSWORD
           docker pull registry.gitlab.com/miles-cloud/milescloud-deploy/azure:latest
           docker run -v "`pwd`/k8s:/k8s" -e DOCKER_TAG="$GITHUB_SHA_SHORT" -e CLIENT_ID="$TEST_CLIENT_ID" -e CLIENT_SECRET="$TEST_CLIENT_SECRET" -e TENANT_ID="$TENANT_ID" -e CLUSTER_NAME="$TEST_CLUSTER_NAME" -e ENVIRONMENT="test" registry.gitlab.com/miles-cloud/milescloud-deploy/azure:latest
-  # deploy-to-prod:
-  #   runs-on: ubuntu-latest
-  #   needs: deploy-to-test
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Deploy to prod
-  #       run: |
-  #         docker login registry.gitlab.com -u $MILESCLOUD_REGISTRY_USER -p $MILESCLOUD_REGISTRY_PASSWORD
-  #         docker pull registry.gitlab.com/miles-cloud/milescloud-deploy/azure:latest
-  #         docker run -v "`pwd`/k8s:/k8s" -e DOCKER_TAG="${{github.run_number}}" -e CLIENT_ID="$PROD_CLIENT_ID" -e CLIENT_SECRET="$PROD_CLIENT_SECRET" -e TENANT_ID="$TENANT_ID" -e CLUSTER_NAME="$PROD_CLUSTER_NAME" -e ENVIRONMENT="production" registry.gitlab.com/miles-cloud/milescloud-deploy/azure:latest
