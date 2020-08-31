@@ -3,7 +3,7 @@ const cors = require('cors');
 const events = require('@imoverse/events');
 const log = require('@imoverse/logger');
 const { InvalidInputError, corsWhitelist } = require('@imoverse/skapet');
-const { {{resource}}Router, {{resource}}Events: eventTypes, {{resource}}Handlers: handlers } = require('./{{resource}}');
+const { {{primaryResourcePlural}}Router, {{primaryResourcePlural}}Events: eventTypes, {{primaryResourcePlural}}Handlers: handlers } = require('./{{primaryResourcePlural}}');
 
 const app = express();
 
@@ -14,11 +14,13 @@ app.use(require('body-parser').json());
 
 app.get('/healthz', (req, res) => res.sendStatus(200));
 
-app.use('/{{projectName}}/{{resource}}', {{resource}}Router);
+app.use('/{{projectName}}/{{primaryResourcePlural}}', {{primaryResourcePlural}}Router);
 
 events
   .addLogger(log)
-  .subscribe(eventTypes.EVENT_NAME, handlers.handleEVENT)
+  .subscribe(eventTypes.{{primaryResourceSingularUc}}_CREATED, handlers.handle{{primaryResourceSingularUcFirst}}Created)
+  .subscribe(eventTypes.{{primaryResourceSingularUc}}_UPDATED, handlers.handle{{primaryResourceSingularUcFirst}}Updated)
+  .subscribe(eventTypes.{{primaryResourceSingularUc}}_DELETED, handlers.handle{{primaryResourceSingularUcFirst}}Deleted)
   .connect();
 
 app.use((err, req, res, next) => { // eslint-disable-line

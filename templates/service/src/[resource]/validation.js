@@ -1,14 +1,14 @@
 const yup = require('yup');
-const { validate } = require('../lib');
+const { serverValidate } = require('@imoverse/skapet');
 
-const categoriesSchema = yup.object().shape({
-  id: yup.string().required('{{resource}} id missing').strict(),
+const {{primaryResourcePlural}}Schema = yup.object().shape({
+  id: yup.string().required('{{primaryResourceSingular}} id missing').strict(),
   tenantId: yup.string().required('Tenant id missing').strict(),
   created: yup.string('Created must be a string').strict(),
   updated: yup.string('Updated must be a string').strict(),
 });
 
-exports.validateAddCategory = (_, { locals }) => validate(categoriesSchema, locals.mappedBody);
+exports.validateAdd{{primaryResourceSingularUcFirst}} = (_, { locals }) => serverValidate({{primaryResourcePlural}}Schema, locals.mappedBody);
 
-exports.validateUpdateCategory = ({ params, body }) =>
-  validate(categoriesSchema, { ...params, ...body });
+exports.validateUpdate{{primaryResourceSingularUcFirst}} = ({ params, body }) =>
+serverValidate({{primaryResourcePlural}}Schema, { ...params, ...body });

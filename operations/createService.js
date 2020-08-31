@@ -13,6 +13,11 @@ const getValues = (values, context) => {
   const [pgAdminUserProd, pgAdminPasswordProd] = context.vars.pgAdminUserProd.split('/');
   const mqPasswordTest = context.vars.mqPasswordTest;
   const mqPasswordProd = context.vars.mqPasswordProd;
+  const primaryResourceSingularUcFirst = `${values.primaryResourceSingular[0].toUpperCase()}${values.primaryResourceSingular.slice(1)}`;
+  const primaryResourceSingularUc = values.primaryResourceSingular.toUpperCase();
+  const primaryResourcePluralUcFirst = `${values.primaryResourcePlural[0].toUpperCase()}${values.primaryResourcePlural.slice(1)}`;
+  const primaryResourcePluralUc = values.primaryResourcePlural.toUpperCase();
+
   return { 
     prodDbPassword,
     testDbPassword,
@@ -22,6 +27,10 @@ const getValues = (values, context) => {
     pgAdminUserTest,
     mqPasswordTest,
     mqPasswordProd,
+    primaryResourceSingularUcFirst,
+    primaryResourceSingularUc,
+    primaryResourcePluralUcFirst,
+    primaryResourcePluralUc,
     ...values
   };
 }
@@ -47,9 +56,13 @@ module.exports = (context) => {
     },
     {
       type: 'text',
-      name: 'primaryResource',
-      message: 'Name of the first resource the service will handle.',
-      initial: process.cwd().split(/(\/|\\)/).pop(),
+      name: 'primaryResourcePlural',
+      message: 'Name of the first resource the service will handle in plural form',
+    },
+    {
+      type: 'text',
+      name: 'primaryResourceSingular',
+      message: 'Name of the first resource the service will handle in singular form',
     },
     {
       type: 'password',
@@ -66,11 +79,11 @@ module.exports = (context) => {
   prompts(questions)
     .then(async values => {
       const input = getValues(values, context);
-
+      console.log(input);
       await copy(`${__dirname}/../templates/service`, process.cwd(), input);
 
       try {
-        fs.renameSync('./src/[resource]', `./src/${values.primaryResource}`);
+        fs.renameSync('./src/[resource]', `./src/${values.primaryResourcePlural}`);
         fs.renameSync('./env', './.env');
       } catch (ex) {
         shell.echo(chalk`{red: ERROR renaming files}

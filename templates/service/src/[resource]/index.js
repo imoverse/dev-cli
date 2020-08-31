@@ -1,5 +1,5 @@
 const { handlers, events } = require('./events');
 
-exports.{{resource}}router = require('./routes');
-exports.{{resource}}Handlers = handlers;
-exports.{{resource}}Events = events;
+exports.{{primaryResourcePlural}}Router = require('./routes');
+exports.{{primaryResourcePlural}}Handlers = handlers;
+exports.{{primaryResourcePlural}}Events = events;
