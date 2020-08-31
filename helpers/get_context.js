@@ -35,7 +35,7 @@ module.exports = () => {
       context.containers = (context.containers || []).map(applyPath());
       context.packages = (context.packages || []).map(applyPath('packages/'));
       context.otherRepos = (context.otherRepos || []).map(applyPath());
-
+      context.vars = (context.vars || {});
       return context;
     }
     parentFolders.pop();
