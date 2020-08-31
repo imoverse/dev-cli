@@ -4,7 +4,29 @@ const fs = require('fs');
 const shell = require('shelljs');
 const chalk = require('chalk');
 
-module.exports = () => {
+const encodeBase64 = str => Buffer.from(str).toString('base64');
+
+const getValues = (values, context) => {
+  const prodDbPassword = encodeBase64(values.prodDbPwd);
+  const testDbPassword = encodeBase64(values.testDbPwd);
+  const [pgAdminUserTest, pgAdminPasswordTest] = context.vars.pgAdminUserTest.split('/');
+  const [pgAdminUserProd, pgAdminPasswordProd] = context.vars.pgAdminUserProd.split('/');
+  const mqPasswordTest = context.vars.mqPasswordTest;
+  const mqPasswordProd = context.vars.mqPasswordProd;
+  return { 
+    prodDbPassword,
+    testDbPassword,
+    pgAdminPasswordProd,
+    pgAdminPasswordTest,
+    pgAdminUserProd,
+    pgAdminUserTest,
+    mqPasswordTest,
+    mqPasswordProd,
+    ...values
+  };
+}
+
+module.exports = (context) => {
   const questions = [
     {
       type: 'text',
@@ -20,39 +42,36 @@ module.exports = () => {
     },
     {
       type: 'text',
+      name: 'audience',
+      message: 'What is the audience for this service?',
+    },
+    {
+      type: 'text',
       name: 'primaryResource',
       message: 'Name of the first resource the service will handle.',
       initial: process.cwd().split(/(\/|\\)/).pop(),
     },
     {
-      type: 'text',
-      name: 'testDbUser',
-      message: 'Test: Username for the database user. This should be unique to the service',
-    },
-    {
-      type: 'text',
-      name: 'testDbPassword',
+      type: 'password',
+      name: 'testDbPwd',
       message: 'Test: Password for the database user. This should be unique to the service',
     },
     {
-      type: 'text',
-      name: 'prodDbUser',
-      message: 'Prod: Username for the database user. This should be unique to the service',
-    },
-    {
-      type: 'text',
-      name: 'prodDbPassword',
+      type: 'password',
+      name: 'prodDbPwd',
       message: 'Prod: Password for the database user. This should be unique to the service',
     },
   ];
 
   prompts(questions)
     .then(async values => {
-      await copy(`${__dirname}/../templates/service`, process.cwd(), values);
+      const input = getValues(values, context);
+
+      await copy(`${__dirname}/../templates/service`, process.cwd(), input);
       fs.rename('./src/[resource]', `./src/${values.primaryResource}`, () => { 
         shell.echo(chalk`{green ...done} The following files where added:
         `);
-        shell.exec('ls');
+        shell.exec('ls -a');
       });
     });
 };
