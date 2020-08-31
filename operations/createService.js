@@ -80,5 +80,16 @@ module.exports = (context) => {
       shell.echo(chalk`{green ...done} The following files where added:
 `);
       shell.exec('ls -a');
+      shell.echo(chalk`
+
+{blue Now what?}
+  1. Create github-repository: {green https://github.com/organizations/imoverse/repositories/new}
+  2. Add the imoverse/imove team as admins to the repo: (green https://github.com/imoverse/${values.projectName}/settings/access)
+  3. Add repository secrets: {green https://github.com/imoverse/${values.projectName}/settings/secrets}
+    ACR_PASSWORD, MILESCLOUD_REGISTRY_PASSWORD, NPM_TOKEN, PROD_CLIENT_SECRET, TEST_CLIENT_SECRET
+  4. Add repo to #ops in Slack: {green /github subscribe https://github.com/imoverse/${values.projectName}}
+  5. Search for TODO in the repo and replace values and implement stuff.
+`
+      );
     });
 };
