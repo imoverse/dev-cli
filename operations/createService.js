@@ -68,10 +68,17 @@ module.exports = (context) => {
       const input = getValues(values, context);
 
       await copy(`${__dirname}/../templates/service`, process.cwd(), input);
-      fs.rename('./src/[resource]', `./src/${values.primaryResource}`, () => { 
-        shell.echo(chalk`{green ...done} The following files where added:
-        `);
-        shell.exec('ls -a');
-      });
+
+      try {
+        fs.renameSync('./src/[resource]', `./src/${values.primaryResource}`);
+        fs.renameSync('./env', './.env');
+      } catch (ex) {
+        shell.echo(chalk`{red: ERROR renaming files}
+          You will need to rename src/[resource] and ./env yourself
+`);
+      }
+      shell.echo(chalk`{green ...done} The following files where added:
+`);
+      shell.exec('ls -a');
     });
 };
