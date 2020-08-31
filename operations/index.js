@@ -59,7 +59,7 @@ const operations = {
         const context = getContext();
         git(context, 'clone', 'all');
         createNetwork(context);
-        updateEnv(context),
+        updateEnv(context);
         installDependencies(context, 'all');
         build(context, 'all');
         dbMigration(context, 'all');

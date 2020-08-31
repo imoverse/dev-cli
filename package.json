@@ -21,7 +21,9 @@
     "eslint-config-node": "^4.1.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./node_modules/.bin/ava",
+    "lint": "node ./node_modules/.bin/eslint .",
+    "watch": "npx concurrently 'npm run lint' 'npm run test'"
   },
   "author": "",
   "license": "ISC",

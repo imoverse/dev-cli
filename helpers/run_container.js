@@ -25,7 +25,7 @@ const runContainer = (context, containerConfig) => {
   }
 
   context.options.forEach(flag => {
-    if (flag.startsWith('-')) { flags[itr++] = flag; } else flags[1] = flag;
+    if (flag.startsWith('-')) { flags[itr += 1] = flag; } else flags[1] = flag;
   });
 
   const env = !containerConfig.env ? '' : containerConfig.env.map(e => {

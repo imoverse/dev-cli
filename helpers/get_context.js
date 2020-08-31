@@ -25,8 +25,7 @@ module.exports = () => {
   while (parentFolders.length > 0) {
     const currentPath = `${parentFolders.join(dirSeperator)}`;
     const currentFile = `${currentPath}${dirSeperator}.dev`;
-    let content;
-    content = getFileContent(currentFile);
+    const content = getFileContent(currentFile);
 
     if (content) {
       const context = yaml.parse(content);

@@ -1,7 +1,8 @@
 const chalk = require('chalk');
+const shell = require('shelljs');
 
 module.exports = () => {
-  console.log(chalk`
+  shell.echo(chalk`
 {blue ${chalk.bold('Arguments')}:}
   The available operations are listed. Most operations can take a string as an additional argument. The containers are matched against this string and the first match is returned.
   Example: {bgGray ${chalk.green('dev build subscr')}} results in building the subscription-api whereas {bgGray ${chalk.green('dev build all')}} iterates over all containers and build them.

@@ -1,5 +1,6 @@
 const yaml = require('yaml');
 const chalk = require('chalk');
+const shell = require('shelljs');
 const getFileContent = require('../helpers/get_file_content');
 
 const getYaml = file => {
@@ -16,7 +17,7 @@ const getVarsFromDeployment = obj => {
   const vars = {};
   const addVars = c => {
     if (c.env) {
-      c.env.forEach(e => vars[e.name] = e.valueFrom.secretKeyRef ? 'secret' : 'config');
+      c.env.forEach(e => vars[e.name] = e.valueFrom.secretKeyRef ? 'secret' : 'config'); // eslint-disable-line no-return-assign
     }
   };
   try {
@@ -36,7 +37,7 @@ const base64DecodeValues = (data = {}) => {
   return result;
 };
 
-module.exports = (context, envArg, variable) => {
+module.exports = (context, envArg) => {
   const envs = {
     prod: 'production',
     test: 'test',
@@ -51,7 +52,10 @@ module.exports = (context, envArg, variable) => {
 
   const envSecrets = getYaml(getFilePath(context, `overlays/${env}/secrets.yml`)) || { data: {} };
   const envVars = {
-    ...baseFile.data, ...base64DecodeValues(baseSecrets.data), ...envFile.data, ...base64DecodeValues(envSecrets.data),
+    ...baseFile.data,
+    ...base64DecodeValues(baseSecrets.data),
+    ...envFile.data,
+    ...base64DecodeValues(envSecrets.data),
   };
 
   const baseDeployment = getYaml(getFilePath(context, 'base/deployment.yml'));
@@ -60,19 +64,19 @@ module.exports = (context, envArg, variable) => {
   const baseDeploymentVars = getVarsFromDeployment(baseDeployment);
   const envDeploymentVars = getVarsFromDeployment(envDeployment);
   const deploymentVars = { ...baseDeploymentVars, ...envDeploymentVars };
-  console.log('');
-  console.log(chalk.green('Variable is OK'));
-  console.log(chalk.magenta('Variable is in deployment but value is missing'));
-  console.log(chalk.yellow('Variable is in config but not in deployment'));
-  console.log(`
+  shell.echo('');
+  shell.echo(chalk.green('Variable is OK'));
+  shell.echo(chalk.magenta('Variable is in deployment but value is missing'));
+  shell.echo(chalk.yellow('Variable is in config but not in deployment'));
+  shell.echo(`
 VARIABLE                       VALUE
 =============================================================================  `);
   const printVar = k => {
     const colorFn = deploymentVars[k] ? chalk.green : chalk.yellow;
-    console.log(`${`${k} ${deploymentVars[k] === 'secret' ? '(secret)' : ''}                             `.substr(0, 30)} ${colorFn(envVars[k] || '')}`);
+    shell.echo(`${`${k} ${deploymentVars[k] === 'secret' ? '(secret)' : ''}                             `.substr(0, 30)} ${colorFn(envVars[k] || '')}`);
     deploymentVars[k] = 'printed';
   };
   Object.keys(envVars).forEach(printVar);
-  Object.keys(deploymentVars).filter(d => deploymentVars[d] !== 'printed').forEach(v => console.log(chalk.magenta(v)));
-  console.log('');
+  Object.keys(deploymentVars).filter(d => deploymentVars[d] !== 'printed').forEach(v => shell.echo(chalk.magenta(v)));
+  shell.echo('');
 };

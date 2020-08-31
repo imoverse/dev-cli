@@ -1,9 +1,9 @@
 const shell = require('shelljs');
 
 module.exports = (context, environment) => {
-  const ns = context.environments.find(ns => ns.env === environment);
+  const ns = context.environments.find(kns => kns.env === environment);
   if (!ns) {
-    console.error(`Could not find environment ${environment}. Available environments are [${context.environments.map(ns => ns.env).join(', ')}].`);
+    shell.echo(`Could not find environment ${environment}. Available environments are [${context.environments.map(kns => kns.env).join(', ')}].`);
     return;
   }
 

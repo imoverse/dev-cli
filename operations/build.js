@@ -9,7 +9,7 @@ module.exports = (context, search) => {
 
     fs.access(`${repo.path}/Dockerfile`, fs.constants.F_OK, err => {
       if (err) {
-        console.error(chalk`{red ERROR:} ${!search ? 'Current directory' : repo.path} is missing Dockerfile`);
+        shell.echo(chalk`{red ERROR:} ${!search ? 'Current directory' : repo.path} is missing Dockerfile`);
         return false;
       }
       let dockerfile = '';
@@ -19,6 +19,7 @@ module.exports = (context, search) => {
       const cmd = `docker build -t ${repo.name} ${dockerfile} ${path}`;
       shell.echo(cmd);
       shell.exec(cmd);
+      return true;
     });
   }, { onlyContainers: true });
 };

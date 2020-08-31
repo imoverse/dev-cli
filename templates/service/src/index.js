@@ -1,34 +1,24 @@
 const express = require('express');
 const cors = require('cors');
-const mq = require('@imoverse/mq');
+const events = require('@imoverse/events');
 const log = require('@imoverse/logger');
-const { InvalidInputError } = require('@imoverse/skapet');
-const { corsOptions } = require('./lib');
-const { catRouter, catEvents: cE, catHandlers: cH } = require('./categories');
-const { productRouter, productEvents: pE, productHandlers: pH } = require('./products');
+const { InvalidInputError, corsWhitelist } = require('@imoverse/skapet');
+const { {{resource}}Router, {{resource}}Events: eventTypes, {{resource}}Handlers: handlers } = require('./{{resource}}');
 
 const app = express();
 
 const whitelist = [process.env.COMMANDCENTER];
 
-app.use(cors(corsOptions(whitelist)));
+app.use(cors(corsWhitelist(whitelist)));
 app.use(require('body-parser').json());
 
 app.get('/healthz', (req, res) => res.sendStatus(200));
 
-app.use('/{{projectName}}/ENTITY', {{projectName}}Router);
+app.use('/{{projectName}}/{{resource}}', {{resource}}Router);
 
-mq
+events
   .addLogger(log)
-
-  .subscribe(cE.CATEGORY_CREATED, cH.handleCategoryCreated)
-  .subscribe(cE.CATEGORY_UPDATED, cH.handleCategoryUpdated)
-  .subscribe(cE.CATEGORY_DELETED, cH.handleCategoryDeleted)
-
-  .subscribe(pE.PRODUCT_CREATED, pH.handleProductCreated)
-  .subscribe(pE.PRODUCT_UPDATED, pH.handleProductUpdated)
-  .subscribe(pE.PRODUCT_DELETED, pH.handleProductDeleted)
-
+  .subscribe(eventTypes.EVENT_NAME, handlers.handleEVENT)
   .connect();
 
 app.use((err, req, res, next) => { // eslint-disable-line

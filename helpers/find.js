@@ -41,9 +41,9 @@ const findAndApply = (context, search, func, options = {}) => {
   }
   
   if (!options.onlyOthers && !options.onlyContainers) {
-    const package = find(context.packages, search || getSearchFromCwd());
-    if (package) {
-      return func(context, package);
+    const pkg = find(context.packages, search || getSearchFromCwd());
+    if (pkg) {
+      return func(context, pkg);
     }
   }
 

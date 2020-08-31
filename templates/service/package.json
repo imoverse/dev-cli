@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node src/index.js",
     "test": "npx concurrently 'npm run lint' 'npx ava --watch --verbose'",
-    "lint": "node ./node_modules/.bin/eslint .",
-    "dev": "nodemon -r dotenv/config src/index.js",
+    "lint": "npx eslint .",
+    "dev": "npx nodemon -r dotenv/config src/index.js",
     "watch": "npx concurrently 'npm run lint' 'npm run dev'",
     "db-migration": "node node_modules/@imoverse/db-migration/index.js"
   },
@@ -25,7 +25,7 @@
   "dependencies": {
     "@imoverse/authorize": "^1.0.2",
     "@imoverse/logger": "^1.0.0",
-    "@imoverse/mq": "^2.0.0",
+    "@imoverse/events": "^3.0.0",
     "@imoverse/skapet": "^1.5.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
