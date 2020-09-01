@@ -21,7 +21,7 @@ switch (operation) {
     let context;
     try {
       const getContext = require('./helpers/get_context');
-      context = getContext();
+      context = getContext(operation, options);
     } catch (err) {
       console.log(err.message);
       process.exit(4);
@@ -29,7 +29,6 @@ switch (operation) {
     
     if (operation) {
       if (operations[operation]) {
-        context["options"] = options;
         operations[operation].apply(null, [context].concat(options));
       } else {
         console.error('Invalid operation: ' + operation + '. (Available operations are: ' + Object.keys(operations).join(', ') + ')');

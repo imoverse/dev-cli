@@ -17,7 +17,7 @@ const getCurrentContainer = context => {
   return null;
 };
 
-module.exports = () => {
+module.exports = (operation, options) => {
   const dirSeperator = process.platform === 'win32' ? '\\' : '/';
   const cwd = process.cwd();
   const parentFolders = cwd.split(path.sep);
@@ -36,6 +36,8 @@ module.exports = () => {
       context.packages = (context.packages || []).map(applyPath('packages/'));
       context.otherRepos = (context.otherRepos || []).map(applyPath());
       context.vars = (context.vars || {});
+      context.operation = operation;
+      context.options = options;
       return context;
     }
     parentFolders.pop();

@@ -54,16 +54,14 @@ const operations = {
     run(context, search);
   },
   init: (project, envFolder) => {
-    initDevContext(project, envFolder)
-      .then(() => {
-        const context = getContext();
-        git(context, 'clone', 'all');
-        createNetwork(context);
-        updateEnv(context);
-        installDependencies(context, 'all');
-        build(context, 'all');
-        dbMigration(context, 'all');
-      });
+    initDevContext(project, envFolder);
+    const context = getContext('init');
+    git(context, 'clone', 'all');
+    createNetwork(context);
+    updateEnv(context);
+    installDependencies(context, 'all');
+    build(context, 'all');
+    dbMigration(context, 'all');
   },
 };
 
