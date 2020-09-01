@@ -2,39 +2,39 @@
 
 const getArgs = require('./helpers/get_args');
 const operations = require('./operations');
-const args = getArgs();
+const { operation, options } = getArgs();
 
-if (args.operation === 'help') {
-  operations.help();
-  process.exit(0);
-}
+switch (operation) {
+  case 'help':
+    operations.help();
+    break;
 
-if (args.operation === 'initDevContext') {
-  operations.initDevContext.apply(null, args.options);
-  process.exit(0);
-}
+  case 'initDevContext':
+    operations.initDevContext.apply(null, options);
+    break;
 
-if (args.operation === 'init') {
-  operations.init.apply(null, args.options);
-  process.exit(0);
-}
+  case 'init':
+    operations.init.apply(null, options);
+    break;
 
-let context;
-try {
-  const getContext = require('./helpers/get_context');
-  context = getContext();
-} catch (err) {
-  console.log(err.message);
-  process.exit(4);
-}
-
-if (args.operation) {
-  if (operations[args.operation]) {
-    context["options"] = args.options;
-    operations[args.operation].apply(null, [context].concat(args.options));
-  } else {
-    console.error('Invalid operation: ' + args.operation + '. (Available operations are: ' + Object.keys(operations).join(', ') + ')');
-  }
-} else {
-  console.log(context, args);
+  default:
+    let context;
+    try {
+      const getContext = require('./helpers/get_context');
+      context = getContext();
+    } catch (err) {
+      console.log(err.message);
+      process.exit(4);
+    }
+    
+    if (operation) {
+      if (operations[operation]) {
+        context["options"] = options;
+        operations[operation].apply(null, [context].concat(options));
+      } else {
+        console.error('Invalid operation: ' + operation + '. (Available operations are: ' + Object.keys(operations).join(', ') + ')');
+      }
+    } else {
+      console.log(context, args);
+    }    
 }
