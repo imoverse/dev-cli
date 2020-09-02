@@ -3,12 +3,12 @@ const fs = require('fs');
 const chalk = require('chalk');
 
 module.exports = (name = 'imove', envFolder = process.env.IMOVE_ENV_FOLDER ? process.env.IMOVE_ENV_FOLDER : `${process.env.HOME}/Dropbox/imove-dev`) => {
-  shell.echo(chalk`Trying to copy env files from {blue ${envFolder}}.`);
   try {
     fs.accessSync('./.dev', fs.constants.R_OK);
-  } catch (err) {
     shell.echo(chalk`{red .dev already exist in this folder }`);
     process.exit(1);
+  } catch (err) {
+    shell.echo(chalk`Trying to copy env files from {blue ${envFolder}}.`);
   }
   try {
     fs.accessSync(`${envFolder}/${name}.dev`, fs.constants.R_OK);
