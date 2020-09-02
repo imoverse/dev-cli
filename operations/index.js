@@ -59,6 +59,7 @@ const operations = {
     git(context, 'clone', 'all');
     createNetwork(context);
     updateEnv(context);
+    startExternal(context, 'imove-pg');
     installDependencies(context, 'all');
     build(context, 'all');
     dbMigration(context, 'all');
