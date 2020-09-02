@@ -2,7 +2,7 @@ const shell = require('shelljs');
 const fs = require('fs');
 const chalk = require('chalk');
 
-module.exports = (context, envFolder = process.env.IMOVE_ENV_FOLDER ? process.env.IMOVE_ENV_FOLDER : `${process.env.HOME}/Dropbox/imove-dev/env`) => {
+module.exports = (context, envFolder = process.env.IMOVE_ENV_FOLDER ? process.env.IMOVE_ENV_FOLDER : `${process.env.HOME}/Dropbox/imove-dev`) => {
   if (context.operation === 'init') {
     shell.echo(chalk`
       {blue Adding env files ======================================}
