@@ -9,6 +9,7 @@
     "lint": "npx eslint .",
     "dev": "npx nodemon -r dotenv/config src/index.js",
     "watch": "npx concurrently 'npm run lint' 'npm run dev'",
+    "predeploy": "npm run lint && npx ava --verbose",
     "db-migration": "node node_modules/@imoverse/db-migration/index.js"
   },
   "repository": {

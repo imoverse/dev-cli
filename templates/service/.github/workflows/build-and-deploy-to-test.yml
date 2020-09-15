@@ -31,6 +31,12 @@ jobs:
           export GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-8)
           docker login $ACR_NAME -u $ACR_USER -p $ACR_PASSWORD
           docker build --build-arg NPM_TOKEN=$\{{ secrets.NPM_TOKEN }} . --tag "$ACR_NAME/$REPO_NAME:latest" --tag "$ACR_NAME/$REPO_NAME:$\{{github.run_number}}" --tag "$ACR_NAME/$REPO_NAME:$GITHUB_SHA_SHORT" --tag "$ACR_NAME/$REPO_NAME:$GITHUB_SHA"
+      - name: Run lint and test
+        run: |
+          docker run --rm $ACR_NAME/$REPO_NAME:$GITHUB_SHA npm run predeploy
+      - name: Push image to registry
+        run: |
+          export GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-8)
           docker push $ACR_NAME/$REPO_NAME:$\{{github.run_number}}
           docker push $ACR_NAME/$REPO_NAME:$GITHUB_SHA_SHORT
           docker push $ACR_NAME/$REPO_NAME:$GITHUB_SHA
