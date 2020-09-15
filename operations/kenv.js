@@ -12,6 +12,6 @@ module.exports = (_, search) => {
     shell.echo(cmd);
     shell.exec(cmd);
   } else {
-    shell.echo(`Could not find any pod matching "${search}"`)
+    shell.echo(`Could not find any pod matching "${search}"`);
   }
 };

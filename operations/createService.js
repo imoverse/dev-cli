@@ -11,14 +11,13 @@ const getValues = (values, context) => {
   const testDbPassword = encodeBase64(values.testDbPwd);
   const [pgAdminUserTest, pgAdminPasswordTest] = context.vars.pgAdminUserTest.split('/');
   const [pgAdminUserProd, pgAdminPasswordProd] = context.vars.pgAdminUserProd.split('/');
-  const mqPasswordTest = context.vars.mqPasswordTest;
-  const mqPasswordProd = context.vars.mqPasswordProd;
+  const { mqPasswordTest, mqPasswordProd } = context.vars;
   const primaryResourceSingularUcFirst = `${values.primaryResourceSingular[0].toUpperCase()}${values.primaryResourceSingular.slice(1)}`;
   const primaryResourceSingularUc = values.primaryResourceSingular.toUpperCase();
   const primaryResourcePluralUcFirst = `${values.primaryResourcePlural[0].toUpperCase()}${values.primaryResourcePlural.slice(1)}`;
   const primaryResourcePluralUc = values.primaryResourcePlural.toUpperCase();
 
-  return { 
+  return {
     prodDbPassword,
     testDbPassword,
     pgAdminPasswordProd,
@@ -31,11 +30,11 @@ const getValues = (values, context) => {
     primaryResourceSingularUc,
     primaryResourcePluralUcFirst,
     primaryResourcePluralUc,
-    ...values
+    ...values,
   };
-}
+};
 
-module.exports = (context) => {
+module.exports = context => {
   const questions = [
     {
       type: 'text',
@@ -79,7 +78,7 @@ module.exports = (context) => {
   prompts(questions)
     .then(async values => {
       const input = getValues(values, context);
-      console.log(input);
+      shell.echo(input);
       await copy(`${__dirname}/../templates/service`, process.cwd(), input);
 
       try {
@@ -103,7 +102,7 @@ module.exports = (context) => {
   4. Add repo to #ops in Slack: {green /github subscribe https://github.com/imoverse/${values.projectName}}
   5. Search for TODO in the repo and replace values and implement stuff.
   6. If applicable, the service needs to be added to HAProxy in the imove-setup repo.
-`
-      );
+` // eslint-disable-line comma-dangle
+      ); // eslint-disable-line function-paren-newline
     });
 };

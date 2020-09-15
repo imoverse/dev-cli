@@ -1,8 +1,9 @@
 const chalk = require('chalk');
+const shell = require('shelljs');
 
 const find = (collection, search) => {
-  const match = collection.find((item) => {
-    if(item.name.indexOf(search) > -1) {
+  const match = collection.find(item => {
+    if (item.name.indexOf(search) > -1) {
       return true;
     }
     return false;
@@ -15,22 +16,22 @@ const getSearchFromCwd = () => {
   const parts = cwd.split(/(\/|\\)/);
 
   return parts.pop();
-}
+};
 
 const findAndApply = (context, search, func, options = {}) => {
   if (search === 'all') {
     if (options.onlyContainers) {
-      return context.containers.map((repo) => func(context, repo));
+      return context.containers.map(repo => func(context, repo));
     }
     if (options.onlyPackages) {
-      return context.packages.map((repo) => func(context, repo));
+      return context.packages.map(repo => func(context, repo));
     }
     if (options.onlyOthers) {
-      return context.otherRepos.map((repo) => func(context, repo));
+      return context.otherRepos.map(repo => func(context, repo));
     }
 
     const all = context.containers.concat(context.packages).concat(context.otherRepos);
-    return all.map((repo) => func(context, repo));
+    return all.map(repo => func(context, repo));
   }
 
   if (!options.onlyOthers && !options.onlyPackages) {
@@ -39,7 +40,7 @@ const findAndApply = (context, search, func, options = {}) => {
       return func(context, container);
     }
   }
-  
+
   if (!options.onlyOthers && !options.onlyContainers) {
     const pkg = find(context.packages, search || getSearchFromCwd());
     if (pkg) {
@@ -53,9 +54,10 @@ const findAndApply = (context, search, func, options = {}) => {
       return func(context, other);
     }
   }
-  console.log(chalk`Could not find anything matching {blue "${search}"}`);
-}
+  shell.echo(chalk`Could not find anything matching {blue "${search}"}`);
+  return null;
+};
 
-module.exports = { 
+module.exports = {
   findAndApply,
 };

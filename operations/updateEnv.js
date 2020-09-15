@@ -15,10 +15,11 @@ module.exports = (context, envFolder = process.env.IMOVE_ENV_FOLDER ? process.en
     shell.echo(chalk`{red Could not find env files folder at ${envFolder}. Please provide a valid path to the env file folder. }`);
     process.exit(1);
   }
-  
+
   const containers = context.containers.map(c => c.name);
   containers.forEach(c => {
     const cmd = `cp ${envFolder}/env/${c}.env ${context.root}/${c}/.env`;
+    shell.echo(cmd);
     shell.exec(cmd);
   });
 };

@@ -1,6 +1,5 @@
 const shell = require('shelljs');
 const { findAndApply } = require('../helpers/find');
-const startExternal = require('./startExternal');
 
 module.exports = (context, search) => {
   findAndApply(context, search, (_, { name, path }) => {

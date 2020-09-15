@@ -8,7 +8,6 @@ module.exports = context => {
       `);
   }
 
-  console.log('Running create network');
   const cmd = `docker network create --driver bridge ${context.name}`;
   shell.echo(cmd);
   shell.exec(cmd);

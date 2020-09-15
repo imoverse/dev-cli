@@ -19,9 +19,7 @@ test('Should run docker build command', t => {
   });
 
   mock('fs', {
-    access: (file, mode, cb) => {
-      cb(null);
-    },
+    accessSync: () => true,
     constants: { F_OK: 1 },
   });
   sut = mock.reRequire('../operations/build');
@@ -43,9 +41,7 @@ test('Should build all containers if param is "all"', t => {
   });
 
   mock('fs', {
-    access: (file, mode, cb) => {
-      cb(null);
-    },
+    accessSync: () => true,
     constants: { F_OK: 1 },
   });
   sut = mock.reRequire('../operations/build');

@@ -23,7 +23,8 @@
   "scripts": {
     "test": "node ./node_modules/.bin/ava",
     "lint": "node ./node_modules/.bin/eslint .",
-    "watch": "npx concurrently 'npm run lint' 'npm run test'"
+    "watch": "npx concurrently 'npm run lint' 'npm run test'",
+    "predeploy": "npm run lint && npx ava --verbose"
   },
   "author": "",
   "license": "ISC",
