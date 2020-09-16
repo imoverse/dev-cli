@@ -19,7 +19,7 @@ module.exports = (context, search) => {
         }
         container = context.external[cn];
       }
-      const portMapping = container.port.indexOf(':') ? container.port : `${container.port}:3000`;
+      const portMapping = typeof container.port === 'string' && container.port.indexOf(':') ? container.port : `${container.port}:3000`;
       const cmd = `kubectl port-forward ${pod} ${portMapping}`;
       shell.echo(cmd);
       shell.exec(cmd);
