@@ -43,7 +43,10 @@ module.exports = () => {
   {green startExternal:}  If a third-party container is required, it can be started using startExternal. Keep in mind that
                   these containers also has to be present in the context. {gray Default [all]}
 
-  {green dbMigration:}   Run database migrations in intermediate container. Support {gray [search] and [all]. Default [.]}
+  {green dbMigration:}    Run database migrations in intermediate container. Support {gray [search] and [all]. Default [.]}
+
+  {green dbFile:}         Create a correctly timestamped db migration file in the current container's db folder. Requires a 
+                  {gray [name]} parameter describing the migration. Ex. {gray dev dbFile add_userid}.
 
   {green createService:}  Create a new service from an included template. Create an empty folder and enter it before  
                   running the command.
