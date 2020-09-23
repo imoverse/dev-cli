@@ -34,7 +34,7 @@ module.exports = (context, name) => {
     currentContainer,
   } = context;
   const now = new Date();
-  const ts = now.toISOString().replace(/([^\d]|-)/g, '').substr(0,12);
+  const ts = now.toISOString().replace(/([^\d]|-)/g, '').substr(0, 12);
   const targetFile = `${root}/${currentContainer}/db/${ts}_${name}.js`;
   fs.writeFileSync(targetFile, fileContent);
   shell.echo(`Knex migration file created: ${targetFile}`);
