@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build the Docker image
         run: |
-          export GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-8)
+          export GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-7)
           docker login $ACR_NAME -u $ACR_USER -p $ACR_PASSWORD
           docker build --build-arg NPM_TOKEN=$\{{ secrets.NPM_TOKEN }} . --tag "$ACR_NAME/$REPO_NAME:latest" --tag "$ACR_NAME/$REPO_NAME:$\{{github.run_number}}" --tag "$ACR_NAME/$REPO_NAME:$GITHUB_SHA_SHORT" --tag "$ACR_NAME/$REPO_NAME:$GITHUB_SHA"
       - name: Run lint and test
@@ -36,7 +36,7 @@ jobs:
           docker run --rm $ACR_NAME/$REPO_NAME:$GITHUB_SHA npm run predeploy
       - name: Push image to registry
         run: |
-          export GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-8)
+          export GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-7)
           docker push $ACR_NAME/$REPO_NAME:$\{{github.run_number}}
           docker push $ACR_NAME/$REPO_NAME:$GITHUB_SHA_SHORT
           docker push $ACR_NAME/$REPO_NAME:$GITHUB_SHA
@@ -47,7 +47,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Deploy to test
         run: |
-          export GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-8)
+          export GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-7)
           docker login registry.gitlab.com -u $MILESCLOUD_REGISTRY_USER -p $MILESCLOUD_REGISTRY_PASSWORD
           docker pull registry.gitlab.com/miles-cloud/milescloud-deploy/azure:latest
           docker run -v "`pwd`/k8s:/k8s" -e DOCKER_TAG="$GITHUB_SHA_SHORT" -e CLIENT_ID="$TEST_CLIENT_ID" -e CLIENT_SECRET="$TEST_CLIENT_SECRET" -e TENANT_ID="$TENANT_ID" -e CLUSTER_NAME="$TEST_CLUSTER_NAME" -e ENVIRONMENT="test" registry.gitlab.com/miles-cloud/milescloud-deploy/azure:latest

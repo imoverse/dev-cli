@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{projectName}}
 data:
+  COMMANDCENTER: https://admin.prod.imove.no
   MQUSER: imove
   LOG_LEVEL: info
   STSHOST: https://id.imove.no
