@@ -20,6 +20,7 @@ const updateEnv = require('./updateEnv');
 const initDevContext = require('./initDevContext');
 const createService = require('./createService');
 const getContext = require('../helpers/get_context');
+const dbFile = require('./dbFile');
 
 const operations = {
   clone: (context, search) => git(context, 'clone', search),
@@ -48,6 +49,7 @@ const operations = {
   updateEnv,
   initDevContext,
   createService,
+  dbFile,
   brs: (context, search) => {
     build(context, search);
     stop(context, search);
