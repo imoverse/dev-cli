@@ -10,14 +10,20 @@ module.exports = () => {
 
 {blue ${chalk.bold('Operations')}:}
 
+  {green init:}           Setup entire dev development: Init dev context, clone, setup docker, updateEnv start external
+                  install dependencies, build containers and run db migrations.
+
+  {green initDevContext:} Set up symbolic link to .dev file in current directory. Use default dropbox location or 
+                  environment variable IMOVE_ENV_FOLDER.
+
+  {green updateEnv:}      Copy env files for each container from default Dropbox location or IMOVE_ENV_FOLDER.
+
   {green clone:}          Clones all repositories. If an argument is given, the first 
                   matching repository is cloned. Support {gray [search] and [all]. Default [.]}
 
   {green pull:}           Update all source code with git pull. Support {gray [search] and [all]. Default [.]}
 
   {green build:}          Build container. Support {gray [search] and [all]. Default [.]}
-
-  {green init:}           WIP: Setup entire dev development.
 
   {green run:}            Start container. Port may be exposed based om context. Support {gray [search] and [all]. Default [.]}
 
@@ -26,17 +32,18 @@ module.exports = () => {
   {green brs:}            Shortcut for build and restart. Support {gray [search] and [all]. Default [.]}
 
   {green install:}        Install npm dependencies. Support {gray [search] and [all]. Default [.]}
+  {green i:}              Alias for {gray install}
+
+  {green collection:}     Run a named collection of multiple containers defined in {gray .dev}
+  {green c:}              Alias for {gray collection}
 
   {green createNetwork:}  The containers are isolated in it's own network which 
                   is created by running createNetwork.
 
-  {green startExternal:}  If a third-party container is required, it can be started 
-                  using startExternal. Keep in mind that these containers 
-                  also has to be present in the context.
+  {green startExternal:}  If a third-party container is required, it can be started using startExternal. Keep in mind that
+                  these containers also has to be present in the context. {gray Default [all]}
 
   {green dbMigration:}   Run database migrations in intermediate container. Support {gray [search] and [all]. Default [.]}
-
-  {green init:}           Update all source code with git pull.
 
   {green createService:}  Create a new service from an included template. Create an empty folder and enter it before  
                   running the command.
@@ -47,12 +54,19 @@ module.exports = () => {
 
   {green kenv:}           List the environment vars for the matching pod
 
-  {green pods:}           List the pods for the current namespace
+  {green kpods:}          List the pods for the current namespace
+  {green pods:}           Alias for {gray kpods}
 
   {green ksh:}            Get a shell into the matching pod. Only the command is 
                   output, it has to be copied and run manually.
 
   {green kproxy:}         Create a proxy to the kubernetes instance of matching container
 
+  {green getVariables:}   List the k8s variables from files in the k8s folder of the current container.
+
+  {green help:}           You're here!
+  {green -h:}             Alias for {gray help}.
+  
+  {green cd:}             Output the directory of the matching container. Requires {gray [search]}
   `);
 };

@@ -23,38 +23,6 @@ const getContext = require('../helpers/get_context');
 const dbFile = require('./dbFile');
 
 const operations = {
-  clone: (context, search) => git(context, 'clone', search),
-  pull: (context, search) => git(context, 'pull', search),
-  build,
-  run,
-  stop,
-  cd,
-  createNetwork,
-  startExternal,
-  kns,
-  klogs,
-  c: collection,
-  collection,
-  install: installDependencies,
-  i: installDependencies,
-  '-h': help,
-  help,
-  ksh,
-  kproxy,
-  kenv,
-  pods: kpods,
-  kpods,
-  getVariables,
-  dbMigration,
-  updateEnv,
-  initDevContext,
-  createService,
-  dbFile,
-  brs: (context, search) => {
-    build(context, search);
-    stop(context, search);
-    run(context, search);
-  },
   init: (project, envFolder) => {
     initDevContext(project, envFolder);
     const context = getContext('init');
@@ -66,6 +34,38 @@ const operations = {
     build(context, 'all');
     dbMigration(context, 'all');
   },
+  initDevContext,
+  updateEnv,
+  clone: (context, search) => git(context, 'clone', search),
+  pull: (context, search) => git(context, 'pull', search),
+  build,
+  run,
+  stop,
+  brs: (context, search) => {
+    build(context, search);
+    stop(context, search);
+    run(context, search);
+  },
+  install: installDependencies,
+  i: installDependencies,
+  collection,
+  c: collection,
+  createNetwork,
+  startExternal,
+  dbMigration,
+  dbFile,
+  createService,
+  kns,
+  klogs,
+  kenv,
+  kpods,
+  pods: kpods,
+  ksh,
+  kproxy,
+  getVariables,
+  '-h': help,
+  help,
+  cd,
 };
 
 module.exports = operations;
