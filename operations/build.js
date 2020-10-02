@@ -21,7 +21,7 @@ module.exports = (context, search) => {
     if (path !== '.') {
       dockerfile = `-f ${path}/Dockerfile`;
     }
-    const cmd = `docker build -t ${repo.name} ${dockerfile} ${path}`;
+    const cmd = `docker build --build-arg NPM_TOKEN=${context.vars.npmToken} -t ${repo.name} ${dockerfile} ${path}`;
     shell.echo(cmd);
     shell.exec(cmd);
     return true;
