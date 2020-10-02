@@ -3,7 +3,7 @@ const mock = require('mock-require');
 let sut = require('../operations/build');
 
 const context = {
-  name: 'local-test', root: '', options: [], containers: [{ name: 'foo', port: '3210:3000' }],
+  name: 'local-test', root: '', options: [], vars: { npmToken: 'a' }, containers: [{ name: 'foo', port: '3210:3000' }],
 };
 
 const getContextTemplate = () => ({ ...context });
@@ -11,7 +11,7 @@ const getContextTemplate = () => ({ ...context });
 test('Should run docker build command', t => {
   mock('shelljs', {
     exec: cmd => {
-      t.is(cmd, 'docker build -t foo -f /foo/Dockerfile /foo');
+      t.is(cmd, 'docker build --build-arg NPM_TOKEN=a -t foo -f /foo/Dockerfile /foo');
     },
     echo: () => {
       // noop
@@ -46,7 +46,7 @@ test('Should build all containers if param is "all"', t => {
   });
   sut = mock.reRequire('../operations/build');
   const ctx = getContextTemplate();
-  ctx.containers.push({ name: 'bar' });
+  ctx.containers.push({ name: 'bar', vars: {} });
   sut(getContextTemplate(), 'all');
 
   t.is(called.length, 2);
