@@ -3,8 +3,6 @@ name: Build and deploy to test
 on:
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
 
 env:
   REPO_NAME: {{projectName}}
