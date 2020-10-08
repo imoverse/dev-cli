@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const events = require('@imoverse/events');
 const log = require('@imoverse/logger');
-const { InvalidInputError, corsWhitelist } = require('@imoverse/skapet');
+const { InvalidInputError, corsWhitelist } = require('@imoverse/lib');
 const { {{primaryResourcePlural}}Router, {{primaryResourcePlural}}Events: eventTypes, {{primaryResourcePlural}}Handlers: handlers } = require('./{{primaryResourcePlural}}');
 
 const app = express();

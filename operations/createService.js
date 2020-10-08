@@ -44,8 +44,8 @@ module.exports = context => {
     },
     {
       type: 'text',
-      name: 'desription',
-      message: 'Project descrioption:?',
+      name: 'description',
+      message: 'Project description:?',
       initial: 'imove plattform service',
     },
     {
@@ -102,7 +102,8 @@ module.exports = context => {
   4. Add repo to #ops in Slack: {green /github subscribe https://github.com/imoverse/${values.projectName}}
   5. Search for TODO in the repo and replace values and implement stuff.
   6. If applicable, the service needs to be added to HAProxy in the imove-setup repo.
-` // eslint-disable-line comma-dangle
+  7. Add .env to dropbox
+s` // eslint-disable-line comma-dangle
       ); // eslint-disable-line function-paren-newline
     });
 };
