@@ -1,5 +1,5 @@
 const { map } = require('ramda');
-const { maybeISO8601String } = require('@imoverse/skapet');
+const { maybeISO8601String } = require('@imoverse/fp-utils');
 const db = require('@imoverse/db');
 
 const map{{primaryResourceSingular}} = {{primaryResourceSingular}} => ({

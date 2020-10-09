@@ -2,7 +2,7 @@ const express = require('express');
 const log = require('@imoverse/logger');
 const authorize = require('@imoverse/authorize');
 const { curry } = require('ramda');
-const { validateInput } = require('@imoverse/skapet');
+const { validateInput } = require('@imoverse/validation');
 const {{primaryResourcePlural}} = require('./db');
 const { validateAdd{{primaryResourceSingularUcFirst}}, validateUpdate{{primaryResourceSingularUcFirst}} } = require('./validation');
 const {
@@ -21,6 +21,7 @@ const handleError = curry(
   },
 );
 
+//TODO: Should getters not need authorization in your service?
 router.get('/', getTenantId, (req, res) =>
 {{primaryResourcePlural}}.all(res.locals.tenantId)
     .then(cats => res.send(cats))
