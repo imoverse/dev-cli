@@ -103,7 +103,7 @@ module.exports = context => {
   5. Search for TODO in the repo and replace values and implement stuff.
   6. If applicable, the service needs to be added to HAProxy in the imove-setup repo.
   7. Add .env to dropbox
-s` // eslint-disable-line comma-dangle
+` // eslint-disable-line comma-dangle
       ); // eslint-disable-line function-paren-newline
     });
 };
