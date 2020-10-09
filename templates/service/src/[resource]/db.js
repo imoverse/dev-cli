@@ -2,7 +2,7 @@ const { map } = require('ramda');
 const { maybeISO8601String } = require('@imoverse/skapet');
 const db = require('@imoverse/db');
 
-const map{{primaryResourcePluralUcFirst}} = {{primaryResourceSingular}} => ({
+const map{{primaryResourceSingular}} = {{primaryResourceSingular}} => ({
   id: {{primaryResourceSingular}}.id,
   created: {{primaryResourceSingular}}.created,
   updated: {{primaryResourceSingular}}.updated,
@@ -10,7 +10,7 @@ const map{{primaryResourcePluralUcFirst}} = {{primaryResourceSingular}} => ({
 });
 
 const map{{primaryResourcePluralUcFirst}} =
-  map(map{{primaryResourcePluralUcFirst}});
+  map(map{{primaryResourceSingular}});
 
 exports.all = async tenantId =>
   (await db.list('SELECT * FROM {{primaryResourcePlural}} WHERE tenantid = $1', [tenantId]))

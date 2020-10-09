@@ -2,8 +2,8 @@ const express = require('express');
 const log = require('@imoverse/logger');
 const authorize = require('@imoverse/authorize');
 const { curry } = require('ramda');
-const { serverValidate } = require('@imoverse/skapet');
-const { {{primaryResourcePlural}} } = require('./db');
+const { validateInput } = require('@imoverse/skapet');
+const {{primaryResourcePlural}} = require('./db');
 const { validateAdd{{primaryResourceSingularUcFirst}}, validateUpdate{{primaryResourceSingularUcFirst}} } = require('./validation');
 const {
   publish{{primaryResourceSingularUcFirst}}Created,
@@ -33,13 +33,13 @@ router.get('/:id', getTenantId, ({ params }, res) =>
 
 router.use(authorize());
 
-router.post('/', mapBodyWithTenantId, serverValidate(validateAdd{{primaryResourceSingularUcFirst}}), (_, res) =>
+router.post('/', mapBodyWithTenantId, validateInput(validateAdd{{primaryResourceSingularUcFirst}}), (_, res) =>
   publish{{primaryResourceSingularUcFirst}}Created(res.locals.mappedBody)
     .then(() =>
       res.sendStatus(201))
     .catch(handleError(res)));
 
-router.put('/:id', serverValidate(validateUpdate{{primaryResourceSingularUcFirst}}), ({ params, body }, res) =>
+router.put('/:id', validateInput(validateUpdate{{primaryResourceSingularUcFirst}}), ({ params, body }, res) =>
   publish{{primaryResourceSingularUcFirst}}Updated({ id: params.id, ...body })
     .then(() =>
       res.sendStatus(204))
