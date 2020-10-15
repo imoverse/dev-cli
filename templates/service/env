@@ -1,7 +1,6 @@
 COMMANDCENTER=http://localhost:3000
 
-STSHOST=http://sts:5000
-STSISSUER=http://localhost:5000
+STSISSUER=https://imove.eu.auth0.com
 AUDIENCE={{audience}}
 
 PGUSER=postgres

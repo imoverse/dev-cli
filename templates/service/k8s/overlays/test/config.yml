@@ -6,8 +6,7 @@ data:
   MQUSER: imove
   LOG_LEVEL: debug
   COMMANDCENTER: https://admin.test.imove.no
-  STSHOST: https://id.test.imove.no
-  STSISSUER: https://id.test.imove.no
+  STSISSUER: https://imove.eu.auth0.com
   AUDIENCE: {{audience}}
   PGUSER: {{projectName}}_imove@imove-pg.postgres.database.azure.com
   PGHOST: imove-pg.postgres.database.azure.com

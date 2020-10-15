@@ -6,8 +6,7 @@ data:
   COMMANDCENTER: https://admin.prod.imove.no
   MQUSER: imove
   LOG_LEVEL: info
-  STSHOST: https://id.imove.no
-  STSISSUER: https://id.imove.no
+  STSISSUER: https://imove.eu.auth0.com
   AUDIENCE: {{audience}}
   PGUSER: {{projectName}}_imove@imove-pg-prod.postgres.database.azure.com
   PGHOST: imove-pg-prod.postgres.database.azure.com
