@@ -42,11 +42,6 @@ spec:
                 configMapKeyRef:
                   name: {{projectName}}
                   key: MQUSER
-            - name: STSHOST
-              valueFrom:
-                configMapKeyRef:
-                  name: {{projectName}}
-                  key: STSHOST
             - name: STSISSUER
               valueFrom:
                 configMapKeyRef:
