@@ -6,3 +6,4 @@ data:
   MQHOST: imove-events-rabbitmq
   LOG_LEVEL: debug
   AUDIENCE: {{audience}}
+  SERVICEID: {{projectName}}
