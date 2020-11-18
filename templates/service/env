@@ -17,3 +17,5 @@ MQUSER=guest
 MQPASSWORD=guest
 
 LOG_LEVEL=debug
+
+SERVICEID={{projectName}}

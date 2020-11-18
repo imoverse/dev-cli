@@ -101,8 +101,9 @@ module.exports = context => {
     ACR_PASSWORD, MILESCLOUD_REGISTRY_PASSWORD, NPM_TOKEN, PROD_CLIENT_SECRET, TEST_CLIENT_SECRET
   4. Add repo to #ops in Slack: {green /github subscribe https://github.com/imoverse/${values.projectName}}
   5. Search for TODO in the repo and replace values and implement stuff.
-  6. If applicable, the service needs to be added to HAProxy in the imove-setup repo.
+  6. If applicable, the service needs to be added to HAProxy in the imove-setup repo. remember to run 'kubectl apply -f .'
   7. Add .env to dropbox.
+  8. Should service run in docker container? update .dev file. 
 ` // eslint-disable-line comma-dangle
       ); // eslint-disable-line function-paren-newline
     });

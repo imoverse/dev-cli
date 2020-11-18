@@ -18,29 +18,25 @@ exports.all = async tenantId =>
 
 exports.find = async (id, tenantId) =>
   (await db.find('SELECT * FROM {{primaryResourcePlural}} WHERE id = $1 AND tenantid = $2', [id, tenantId]))
-    .map(map{{primaryResourcePluralUcFirst}});
+    .map(maybe => maybe.map({{primaryResourceSingular}});
 
-exports.add = async ({
-  id, tenantId, created, updated,
-}) => {
+exports.add = async ({{primaryResourceSingular}}, tenantId) => {
   const sql = 'INSERT INTO {{primaryResourcePlural}} (id, tenantid, created, updated) VALUES ($1, $2, $3, $4)';
   const params = [
-    id,
+    {{primaryResourceSingular}}.id,
     tenantId,
-    maybeISO8601String(created).orJust(null),
-    maybeISO8601String(updated).orJust(null),
+    maybeISO8601String({{primaryResourceSingular}}.created).orJust(null),
+    maybeISO8601String({{primaryResourceSingular}}.updated).orJust(null),
   ];
 
   return db.query(sql, params);
 };
 
-exports.update = ({
-  id, tenantId, updated,
-}) => {
+exports.update = ({{primaryResourceSingular}}, tenantId) => {
   const sql = 'UPDATE {{primaryResourcePlural}} SET updated = $1 WHERE id = $2 AND tenantid = $3';
   const params = [
-    maybeISO8601String(updated).orJust(null),
-    id,
+    maybeISO8601String({{primaryResourceSingular}}.updated).orJust(null),
+    {{primaryResourceSingular}}.id,
     tenantId,
   ];
 

@@ -1,11 +1,12 @@
 const test = require('ava');
-const { validateInput, validateAddCategory } = require('../src/validation');
+const { validateInput } = require('@imoverse/validation')
+const { validateAddCategory } = require('../src/{{primaryResourcePlural}}/validation');
 
 test('Should return valid false and errors when invalid', t => {
-  const { valid, errors } = validateAddCategory({}, { locals: { mappedBody: {} } });
+  const { valid, errors } = validateAdd{{primaryResourceSingularUcFirst}}({}, { locals: { mappedBody: {} } });
 
   t.false(valid);
-  t.deepEqual(errors, ['Category id missing', 'Category name missing', 'Tenant id missing']);
+  t.deepEqual(errors, ['{{primaryResourceSingular}} id missing', '{{primaryResourceSingular}} name missing', 'Tenant id missing']);
 });
 
 const validCat = {
@@ -16,7 +17,7 @@ const validCat = {
 };
 
 test('Should be valid', t => {
-  const { valid, errors } = validateAddCategory({}, { locals: { mappedBody: validCat } });
+  const { valid, errors } = validateAdd{{primaryResourceSingularUcFirst}}({}, { locals: { mappedBody: validCat } });
 
   t.true(valid);
   t.is(errors.length, 0);
@@ -24,7 +25,7 @@ test('Should be valid', t => {
 
 test('Should go next on valid req body', t => {
   validateInput(
-    validateAddCategory,
+    validateAdd{{primaryResourceSingularUcFirst}},
     {},
     { locals: { mappedBody: validCat } },
     () => {
