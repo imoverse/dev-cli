@@ -43,10 +43,10 @@ spec:
                   name: {{projectName}}
                   key: MQUSER
             - name: SERVICEID
-                valueFrom:
-                  configMapKeyRef:
-                    name: {{projectName}}
-                    key: SERVICEID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{projectName}}
+                  key: SERVICEID
             - name: STSISSUER
               valueFrom:
                 configMapKeyRef:
