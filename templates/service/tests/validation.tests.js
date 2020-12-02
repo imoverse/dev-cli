@@ -6,11 +6,10 @@ test('Should return valid false and errors when invalid', t => {
   const { valid, errors } = validateAdd{{primaryResourceSingularUcFirst}}({}, { locals: { mappedBody: {} } });
 
   t.false(valid);
-  t.deepEqual(errors, ['{{primaryResourceSingular}} id missing', '{{primaryResourceSingular}} name missing', 'Tenant id missing']);
+  t.deepEqual(errors, ['{{primaryResourceSingular}} name missing', 'Tenant id missing']);
 });
 
 const validCat = {
-  id: '1',
   name: 'Familiebil',
   tenantId: '2',
   created: 'right now',

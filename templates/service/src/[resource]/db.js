@@ -1,6 +1,7 @@
 const { map } = require('ramda');
 const { maybeISO8601String } = require('@imoverse/fp-utils');
 const db = require('@imoverse/db');
+const { v4: uuid } = require('uuid');
 
 const map{{primaryResourceSingular}} = {{primaryResourceSingular}} => ({
   id: {{primaryResourceSingular}}.id,
@@ -21,22 +22,22 @@ exports.find = async (id, tenantId) =>
     .map(maybe => maybe.map({{primaryResourceSingular}});
 
 exports.add = async ({{primaryResourceSingular}}, tenantId) => {
-  const sql = 'INSERT INTO {{primaryResourcePlural}} (id, tenantid, created, updated) VALUES ($1, $2, $3, $4)';
+  const sql = 'INSERT INTO {{primaryResourcePlural}} (id, tenantid, created, updated) VALUES ($1, $2, $3, $4) RETURNING *';
   const params = [
-    {{primaryResourceSingular}}.id,
+    uuid(),
     tenantId,
-    maybeISO8601String({{primaryResourceSingular}}.created).orJust(null),
-    maybeISO8601String({{primaryResourceSingular}}.updated).orJust(null),
+    maybeISO8601String({{primaryResourceSingular}}.created).orNull(),
+    maybeISO8601String({{primaryResourceSingular}}.updated).orNull(),
   ];
 
   return db.query(sql, params);
 };
 
-exports.update = ({{primaryResourceSingular}}, tenantId) => {
-  const sql = 'UPDATE {{primaryResourcePlural}} SET updated = $1 WHERE id = $2 AND tenantid = $3';
+exports.update = ({{primaryResourceSingular}}, id, tenantId) => {
+  const sql = 'UPDATE {{primaryResourcePlural}} SET updated = $1 WHERE id = $2 AND tenantid = $3 RETURNING *';
   const params = [
-    maybeISO8601String({{primaryResourceSingular}}.updated).orJust(null),
-    {{primaryResourceSingular}}.id,
+    maybeISO8601String({{primaryResourceSingular}}.updated).orNull(),
+    id,
     tenantId,
   ];
 

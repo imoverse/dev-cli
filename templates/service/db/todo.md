@@ -24,3 +24,8 @@ exports.down = knex => {
 ```
 
 The content of these files will be run exactly once in each environment, during the deployment process, prior to starting up the container.
+
+#### Does your service use events?
+when running npm db-migration a new migration will be added for failed events. 
+If this service do not use events this migration shouold not exist in this service.
+ 
