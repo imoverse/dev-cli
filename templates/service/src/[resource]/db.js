@@ -24,7 +24,7 @@ exports.find = async (id, tenantId) =>
 exports.add = async ({{primaryResourceSingular}}, tenantId) => {
   const sql = 'INSERT INTO {{primaryResourcePlural}} (id, tenantid, created, updated) VALUES ($1, $2, $3, $4) RETURNING *';
   const params = [
-    uuid(),
+    {{primaryResourceSingular}}.id,
     tenantId,
     maybeISO8601String({{primaryResourceSingular}}.created).orNull(),
     maybeISO8601String({{primaryResourceSingular}}.updated).orNull(),
