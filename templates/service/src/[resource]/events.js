@@ -1,48 +1,32 @@
 const log = require('@imoverse/logger');
-const { publishEvent } = require('@imoverse/events');
-const { curry } = require('ramda');
-const {{primaryResourcePlural}} = require('./db');
+const { eventHandler } = require('@imoverse/failed-events');
 
 const {{primaryResourceSingularUc}}_CREATED = '{{primaryResourceSingular}}-created';
 const {{primaryResourceSingularUc}}_UPDATED = '{{primaryResourceSingular}}-updated';
 const {{primaryResourceSingularUc}}_DELETED = '{{primaryResourceSingular}}-deleted';
 
 exports.publish{{primaryResourceSingularUcFirst}}Created = ({{primaryResourceSingular}}, tenantId)=>
-  publishEvent({{primaryResourceSingularUc}}_CREATED, tenantId, {{primaryResourceSingular}});
+  eventHandler({{primaryResourceSingularUc}}_CREATED, tenantId, {{primaryResourceSingular}});
 
 exports.publish{{primaryResourceSingularUcFirst}}Updated = ({{primaryResourceSingular}}, tenantId)=>
-  publishEvent({{primaryResourceSingularUc}}_UPDATED, tenantId, {{primaryResourceSingular}});
+  eventHandler({{primaryResourceSingularUc}}_UPDATED, tenantId, {{primaryResourceSingular}});
 
 exports.publish{{primaryResourceSingularUcFirst}}Deleted = (id, tenantId) =>
-  publishEvent({{primaryResourceSingularUc}}_DELETED, tenantId, { id });
+  eventHandler({{primaryResourceSingularUc}}_DELETED, tenantId, { id });
 
-const logEventResult = curry(
-  (eventId, result) =>
-    result.cata({
-      Failure: err =>
-        log.error(`Error handling event ${eventId}: ${err}`),
-      Ok: _ =>
-        log.info(`Event ${eventId} handled`),
-    }),
-);
+const logEventResult = (eventId, tenantid, data) =>
+  Promise.resolve(log.info(`Event ${eventId} handled for tenant ${tenantid} `, data));
+
 
 const handle{{primaryResourceSingularUcFirst}}Created = ({ eventId, tenantId, data: {{primaryResourceSingular}} }) =>
-  {{primaryResourcePlural}}.add({{primaryResourceSingular}}, tenantId)
-    .then(logEventResult(eventId))
-    .catch(err =>
-      log.error(`Error handler should never be called ${eventId}: ${err}`));
+  logEventResult(eventId, tenantId, {{primaryResourceSingular}});
+
 
 const handle{{primaryResourceSingularUcFirst}}Updated = ({ eventId, tenantId, data: {{primaryResourceSingular}} }) =>
-  {{primaryResourcePlural}}.update({{primaryResourceSingular}}, tenantId)
-    .then(logEventResult(eventId))
-    .catch(err =>
-      log.error(`Error handler should never be called ${eventId}: ${err}`));
+  logEventResult(eventId, tenantId, {{primaryResourceSingular}});
 
 const handle{{primaryResourceSingularUcFirst}}Deleted = ({ eventId, tenantId, data: { id } }) =>
-  {{primaryResourcePlural}}.remove(id, tenantId)
-    .then(logEventResult(eventId))
-    .catch(err =>
-      log.error(`Error handler should never be called ${eventId}: ${err}`));
+  logEventResult(eventId, tenantId, id);
 
 exports.events = {
   {{primaryResourceSingularUc}}_CREATED,

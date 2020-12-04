@@ -1,5 +1,5 @@
 const yup = require('yup');
-const { serverValidate, validateDateStr} = require('@imoverse/skapet');
+const { serverValidate, validateDateStr} = require('@imoverse/validation');
 
 yup.addMethod.apply(null, validateDateStr);
 
@@ -10,7 +10,7 @@ const {{primaryResourcePlural}}Schema = yup.object().shape({
   updated: yup.string('Updated must be a string').dateStr('Created must be a valid date string').strict(),
 });
 
-exports.validateAdd{{primaryResourceSingularUcFirst}} = (_, { locals }) => serverValidate({{primaryResourcePlural}}Schema, locals.mappedBody);
+exports.validateAdd{{primaryResourceSingularUcFirst}} = ({ body }, { locals }) => serverValidate({{primaryResourcePlural}}Schema, { ...body, tenantid: locals.tenantId });
 
-exports.validateUpdate{{primaryResourceSingularUcFirst}} = ({ params, body }) =>
-serverValidate({{primaryResourcePlural}}Schema, { ...params, ...body });
+exports.validateUpdate{{primaryResourceSingularUcFirst}} = ({ body }, { locals }) =>
+serverValidate({{primaryResourcePlural}}Schema, { ...body, tenantid: locals.tenantId });

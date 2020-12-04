@@ -3,6 +3,7 @@ const cors = require('cors');
 const events = require('@imoverse/events');
 const log = require('@imoverse/logger');
 const { handleRouteErrors, corsWhitelist } = require('@imoverse/lib');
+const { retryFailedEvents } = require('@imoverse/failed-events');
 const { {{primaryResourcePlural}}Router, {{primaryResourcePlural}}Events: eventTypes, {{primaryResourcePlural}}Handlers: handlers } = require('./{{primaryResourcePlural}}');
 
 const app = express();
@@ -22,6 +23,9 @@ events
   .subscribe(eventTypes.{{primaryResourceSingularUc}}_UPDATED, handlers.handle{{primaryResourceSingularUcFirst}}Updated)
   .subscribe(eventTypes.{{primaryResourceSingularUc}}_DELETED, handlers.handle{{primaryResourceSingularUcFirst}}Deleted)
   .connect();
+
+//TODO: does service have events? remove if not
+cron.schedule('*/10 * * * *', () => retryFailedEvents(), {});
 
 app.use(handleRouteErrors);
 
