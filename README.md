@@ -5,7 +5,7 @@ This is a highly opinionated tool for managing your dev environment when working
 The tool provides conventient ways to build, start and stop containers during development with as little configuration needed as possible.
 
 ## Installation
-`npm i -g dev-cli`
+`npm i -g @imoverse/dev-cli`
 
 This will but the binary `dev` in your global npm packages folder.
 
