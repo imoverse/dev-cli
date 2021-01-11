@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{projectName}}
 data:
-  COMMANDCENTER: https://admin.prod.imove.no
+  CORS_WHITELIST: https://admin.prod.imove.no
   MQUSER: imove
   LOG_LEVEL: info
   STSISSUER: https://imove.eu.auth0.com

@@ -5,7 +5,7 @@ metadata:
 data:
   MQUSER: imove
   LOG_LEVEL: debug
-  COMMANDCENTER: https://admin.test.imove.no
+  CORS_WHITELIST: https://admin.test.imove.no,http://localhost:3000
   STSISSUER: https://imove.eu.auth0.com
   AUDIENCE: {{audience}}
   PGUSER: {{projectName}}_imove@imove-pg.postgres.database.azure.com

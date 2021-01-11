@@ -8,7 +8,7 @@ const { {{primaryResourcePlural}}Router, {{primaryResourcePlural}}Events: eventT
 
 const app = express();
 
-const whitelist = [process.env.COMMANDCENTER];
+const whitelist = process.env.CORS_WHITELIST.split(',');
 
 app.use(cors(corsWhitelist(whitelist)));
 app.use(require('body-parser').json());

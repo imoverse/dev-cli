@@ -57,11 +57,11 @@ spec:
                 configMapKeyRef:
                   name: {{projectName}}
                   key: AUDIENCE
-            - name: COMMANDCENTER
+            - name: CORS_WHITELIST
               valueFrom:
                 configMapKeyRef:
                   name: {{projectName}}
-                  key: COMMANDCENTER
+                  key: CORS_WHITELIST
             - name: MQPASSWORD
               valueFrom:
                 secretKeyRef:
