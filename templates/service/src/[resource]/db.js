@@ -19,7 +19,7 @@ exports.all = async tenantId =>
 
 exports.find = async (id, tenantId) =>
   (await db.find('SELECT * FROM {{primaryResourcePlural}} WHERE id = $1 AND tenantid = $2', [id, tenantId]))
-    .map(maybe => maybe.map({{primaryResourceSingular}}));
+    .map(maybe => maybe.map(map{{primaryResourceSingular}}));
 
 exports.add = async ({{primaryResourceSingular}}, tenantId) => {
   const sql = 'INSERT INTO {{primaryResourcePlural}} (id, tenantid, created, updated) VALUES ($1, $2, $3, $4) RETURNING *';
