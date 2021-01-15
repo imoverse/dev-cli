@@ -1,8 +1,9 @@
 const express = require('express');
 const log = require('@imoverse/logger');
+// TODO: Remove permissionCheck or use it
 const { authorize, setTenantId, permissionCheck } = require('@imoverse/authorize');
 const { findTenantId } = require('@imoverse/lib');
-const { curry } = require('ramda');
+const { curry, head } = require('ramda');
 const { validateInput } = require('@imoverse/validation');
 const {{primaryResourcePlural}} = require('./db');
 const { validateAdd{{primaryResourceSingularUcFirst}}, validateUpdate{{primaryResourceSingularUcFirst}} } = require('./validation');
@@ -11,7 +12,6 @@ const {
   publish{{primaryResourceSingularUcFirst}}Updated,
   publish{{primaryResourceSingularUcFirst}}Deleted,
 } = require('./events');
-const { getTenantId, mapBodyWithTenantId } = require('../mappers');
 
 const router = express.Router();
 router.use(authorize());
@@ -42,8 +42,6 @@ router.get('/:id', findTenantId, async({ params }, res) =>
     )
   }));
 
-router.use(authorize());
-router.use(setTenantId);
 //TODO: add appropriate permissions router.use(permissionCheck(['read:<resource>', 'write:<resource']));
 
 router.post('/', validateInput(validateAdd{{primaryResourceSingularUcFirst}}), async ( { body }, res) =>
