@@ -33,18 +33,18 @@ router.get('/', findTenantId, async (req, res) =>
       Failure: err => handleError(res, err),
     }));
 
-router.get('/:id', findTenantId, async({ params }, res) =>
+router.get('/:id', findTenantId, async ({ params }, res) =>
   (await {{primaryResourcePlural}}.find(params.id, res.locals.tenantId)).cata({
     Failure: handleError(res),
     Ok: {{primaryResourceSingular}} => {{primaryResourceSingular}}.cata(
       () => res.sendStatus(404),
       x => res.send(x),
-    )
+    ),
   }));
 
 //TODO: add appropriate permissions router.use(permissionCheck(['read:<resource>', 'write:<resource']));
 
-router.post('/', validateInput(validateAdd{{primaryResourceSingularUcFirst}}), async ( { body }, res) =>
+router.post('/', validateInput(validateAdd{{primaryResourceSingularUcFirst}}), async ({ body }, res) =>
   (await {{primaryResourcePlural}}.add(body, res.locals.tenantId)).cata({
     Failure: handleError(res),
     Ok: async added => {
