@@ -5,10 +5,10 @@ const {{primaryResourceSingularUc}}_CREATED = '{{primaryResourceSingular}}-creat
 const {{primaryResourceSingularUc}}_UPDATED = '{{primaryResourceSingular}}-updated';
 const {{primaryResourceSingularUc}}_DELETED = '{{primaryResourceSingular}}-deleted';
 
-exports.publish{{primaryResourceSingularUcFirst}}Created = ({{primaryResourceSingular}}, tenantId)=>
+exports.publish{{primaryResourceSingularUcFirst}}Created = ({{primaryResourceSingular}}, tenantId) =>
   eventHandler({{primaryResourceSingularUc}}_CREATED, tenantId, {{primaryResourceSingular}});
 
-exports.publish{{primaryResourceSingularUcFirst}}Updated = ({{primaryResourceSingular}}, tenantId)=>
+exports.publish{{primaryResourceSingularUcFirst}}Updated = ({{primaryResourceSingular}}, tenantId) =>
   eventHandler({{primaryResourceSingularUc}}_UPDATED, tenantId, {{primaryResourceSingular}});
 
 exports.publish{{primaryResourceSingularUcFirst}}Deleted = (id, tenantId) =>
@@ -17,10 +17,8 @@ exports.publish{{primaryResourceSingularUcFirst}}Deleted = (id, tenantId) =>
 const logEventResult = (eventId, tenantid, data) =>
   Promise.resolve(log.info(`Event ${eventId} handled for tenant ${tenantid} `, data));
 
-
 const handle{{primaryResourceSingularUcFirst}}Created = ({ eventId, tenantId, data: {{primaryResourceSingular}} }) =>
   logEventResult(eventId, tenantId, {{primaryResourceSingular}});
-
 
 const handle{{primaryResourceSingularUcFirst}}Updated = ({ eventId, tenantId, data: {{primaryResourceSingular}} }) =>
   logEventResult(eventId, tenantId, {{primaryResourceSingular}});
