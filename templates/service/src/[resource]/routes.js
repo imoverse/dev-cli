@@ -14,6 +14,8 @@ const {
 const { getTenantId, mapBodyWithTenantId } = require('../mappers');
 
 const router = express.Router();
+router.use(authorize());
+router.use(setTenantId);
 
 const handleError = curry(
   (res, err) => {
