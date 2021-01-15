@@ -1,12 +1,12 @@
 const test = require('ava');
-const { validateInput } = require('@imoverse/validation')
-const { validateAddCategory } = require('../src/{{primaryResourcePlural}}/validation');
+const { validateInput } = require('@imoverse/validation');
+const { validateAdd{{primaryResourceSingularUcFirst}} } = require('../src/{{primaryResourcePlural}}/validation');
 
 test('Should return valid false and errors when invalid', t => {
   const { valid, errors } = validateAdd{{primaryResourceSingularUcFirst}}({}, { locals: { mappedBody: {} } });
 
   t.false(valid);
-  t.deepEqual(errors, ['{{primaryResourceSingular}} id missing','{{primaryResourceSingular}} name missing', 'Tenant id missing']);
+  t.deepEqual(errors, ['{{primaryResourceSingular}} id missing', '{{primaryResourceSingular}} name missing', 'Tenant id missing']);
 });
 
 const validCat = {
@@ -53,7 +53,7 @@ test('Should return bad request when validation errors', t => {
   };
 
   validateInput(
-    validateAddCategory,
+    validateAdd{{primaryResourceSingularUcFirst}},
     {},
     new FakeRes(
       (resStatus, _) => {
