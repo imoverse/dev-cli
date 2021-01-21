@@ -1,8 +1,9 @@
 const express = require('express');
 const log = require('@imoverse/logger');
+// TODO: Remove permissionCheck or use it
 const { authorize, setTenantId, permissionCheck } = require('@imoverse/authorize');
 const { findTenantId } = require('@imoverse/lib');
-const { curry } = require('ramda');
+const { curry, head } = require('ramda');
 const { validateInput } = require('@imoverse/validation');
 const {{primaryResourcePlural}} = require('./db');
 const { validateAdd{{primaryResourceSingularUcFirst}}, validateUpdate{{primaryResourceSingularUcFirst}} } = require('./validation');
@@ -11,9 +12,10 @@ const {
   publish{{primaryResourceSingularUcFirst}}Updated,
   publish{{primaryResourceSingularUcFirst}}Deleted,
 } = require('./events');
-const { getTenantId, mapBodyWithTenantId } = require('../mappers');
 
 const router = express.Router();
+router.use(authorize());
+router.use(setTenantId);
 
 const handleError = curry(
   (res, err) => {
@@ -31,20 +33,18 @@ router.get('/', findTenantId, async (req, res) =>
       Failure: err => handleError(res, err),
     }));
 
-router.get('/:id', findTenantId, async({ params }, res) =>
+router.get('/:id', findTenantId, async ({ params }, res) =>
   (await {{primaryResourcePlural}}.find(params.id, res.locals.tenantId)).cata({
     Failure: handleError(res),
     Ok: {{primaryResourceSingular}} => {{primaryResourceSingular}}.cata(
       () => res.sendStatus(404),
       x => res.send(x),
-    )
+    ),
   }));
 
-router.use(authorize());
-router.use(setTenantId);
 //TODO: add appropriate permissions router.use(permissionCheck(['read:<resource>', 'write:<resource']));
 
-router.post('/', validateInput(validateAdd{{primaryResourceSingularUcFirst}}), async ( { body }, res) =>
+router.post('/', validateInput(validateAdd{{primaryResourceSingularUcFirst}}), async ({ body }, res) =>
   (await {{primaryResourcePlural}}.add(body, res.locals.tenantId)).cata({
     Failure: handleError(res),
     Ok: async added => {
