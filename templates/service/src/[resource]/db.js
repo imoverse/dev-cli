@@ -24,13 +24,13 @@ exports.find = async (id, tenantId) =>
 exports.add = async ({{primaryResourceSingular}}, tenantId) => {
   const sql = 'INSERT INTO {{primaryResourcePlural}} (id, tenantid, created, updated) VALUES ($1, $2, $3, $4) RETURNING *';
   const params = [
-    {{primaryResourceSingular}}.id,
+    uuid(),
     tenantId,
     maybeISO8601String({{primaryResourceSingular}}.created).orNull(),
     maybeISO8601String({{primaryResourceSingular}}.updated).orNull(),
   ];
 
-  return db.query(sql, params);
+  return (await db.upsertReturning(sql, params)).map(map{{primaryResourceSingular}});
 };
 
 exports.update = ({{primaryResourceSingular}}, id, tenantId) => {
@@ -41,7 +41,7 @@ exports.update = ({{primaryResourceSingular}}, id, tenantId) => {
     tenantId,
   ];
 
-  return db.query(sql, params);
+  return (await db.upsertReturning(sql, params)).map(map{{primaryResourceSingular}});
 };
 
 exports.remove = (id, tenantId) =>

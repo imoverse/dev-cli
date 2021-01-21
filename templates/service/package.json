@@ -25,7 +25,7 @@
   "homepage": "https://github.com/imoverse/{{projectName}}#readme",
   "dependencies": {
     "@imoverse/authorize": "^4.0.0",
-    "@imoverse/db": "^3.0.1",
+    "@imoverse/db": "^3.1.0",
     "@imoverse/logger": "^2.1.0",
     "@imoverse/events": "^7.2.0",
     "@imoverse/fp-utils": "^1.2.1",

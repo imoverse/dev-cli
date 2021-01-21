@@ -48,10 +48,8 @@ router.post('/', validateInput(validateAdd{{primaryResourceSingularUcFirst}}), a
   (await {{primaryResourcePlural}}.add(body, res.locals.tenantId)).cata({
     Failure: handleError(res),
     Ok: async added => {
-      // returns as list, but we only ever insert one obj so should be safe with head
-      const a = head(added);
-      await publish{{primaryResourceSingularUcFirst}}Created(a, res.locals.tenantId);
-      res.status(201).send(a);
+      await publish{{primaryResourceSingularUcFirst}}Created(added, res.locals.tenantId);
+      res.status(201).send(added);
     },
   }));
 
@@ -60,7 +58,7 @@ router.put('/:id', validateInput(validateUpdate{{primaryResourceSingularUcFirst}
     .cata({
       Failure: handleError(res),
       Ok: async updated => {
-        await publish{{primaryResourceSingularUcFirst}}Updated(head(updated), res.locals.tenantId);
+        await publish{{primaryResourceSingularUcFirst}}Updated(updated, res.locals.tenantId);
         res.sendStatus(204);
       },
     }));
