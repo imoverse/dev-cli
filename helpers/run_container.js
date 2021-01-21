@@ -41,7 +41,7 @@ const runContainer = (context, containerConfig) => {
   if (volume === false) {
     containerVolume = '';
   }
-  const run = `docker run ${env} ${flags[0]} ${containerPorts} ${containerVolume} --network ${context.name} --name ${containerConfig.name} ${containerConfig.name} ${containerCmd}`;
+  const run = `docker run -e NODE_ENV=local ${env} ${flags[0]} ${containerPorts} ${containerVolume} --network ${context.name} --name ${containerConfig.name} ${containerConfig.name} ${containerCmd}`;
 
   shell.echo(run);
   shell.exec(run);
