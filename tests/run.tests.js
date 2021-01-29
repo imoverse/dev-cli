@@ -12,7 +12,7 @@ const getContextTemplate = () => ({ ...context });
 test('Should run docker command', t => {
   mock('shelljs', {
     exec: cmd => {
-      t.is(cmd, 'docker run  -d -p 3210:3000 -v /foo:/app --network local-test --name foo foo npm run dev');
+      t.is(cmd, 'docker run -e NODE_ENV=local  -d -p 3210:3000 -v /foo:/app --network local-test --name foo foo npm run dev');
     },
     echo: () => {
       // noop
