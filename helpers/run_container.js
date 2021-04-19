@@ -1,14 +1,12 @@
 const shell = require('shelljs');
 
-const getPortMapping = (port, debugport = false) => {
-  const toPort = debugport ? 9229 : 3000;
+const getPortMapping = (port, mapTo = 3000) => {
   if (typeof port === 'number' || port.indexOf(':') === -1) {
-    return `${port}:${toPort}`;
+    return `${port}:${mapTo}`;
   }
   return port;
 };
 
-const getDebugParameter = port => port ? ` --inspect=0.0.0.0:${port}` : '';
 const getDebugPort = port => {
   const add = 6000;
   if (typeof port === 'number') {
@@ -27,18 +25,15 @@ const runContainer = (context, containerConfig) => {
     name,
     port,
     debugport = getDebugPort(port),
-    cmd = `npm run dev`,
+    cmd = 'npm run dev --inspect=--inspect=0.0.0.0:9229',
     volume,
   } = containerConfig;
-  let containerPorts;
 
-  if (containerConfig.port instanceof Array) {
-    containerPorts = containerConfig.port.map(p => `-p ${getPortMapping(p)}`).join(' ');
-  } else {
-    containerPorts = `-p ${getPortMapping(port)}`;
-  }
+  const containerPorts = containerConfig.port instanceof Array
+    ? containerConfig.port.map(p => `-p ${getPortMapping(p)}`).join(' ')
+    : `-p ${getPortMapping(port)}`;
 
-  const debugports = `-p ${getPortMapping(debugport, true)}`;
+  const debugports = `-p ${getPortMapping(debugport, 9229)}`;
 
   context.options.forEach(flag => {
     if (flag.startsWith('-')) { flags[itr += 1] = flag; } else flags[1] = flag;
