@@ -25,7 +25,7 @@ const runContainer = (context, containerConfig) => {
     name,
     port,
     debugport = getDebugPort(port),
-    cmd = 'npm run dev --inspect=--inspect=0.0.0.0:9229',
+    cmd = 'npm run dev',
     volume,
   } = containerConfig;
 
