@@ -1,28 +1,39 @@
 const shell = require('shelljs');
 
-const getPortMapping = port => {
+const getPortMapping = (port, mapTo = 3000) => {
   if (typeof port === 'number' || port.indexOf(':') === -1) {
-    return `${port}:3000`;
+    return `${port}:${mapTo}`;
   }
   return port;
 };
 
+const getDebugPort = port => {
+  const add = 6000;
+  if (typeof port === 'number') {
+    return port + add;
+  }
+  const colonIndex = port.indexOf(':');
+  if (colonIndex >= 0) {
+    return parseInt(port.substr(0, colonIndex), 10) + add;
+  }
+  return port;
+};
 const runContainer = (context, containerConfig) => {
   const flags = ['-d'];
   let itr = 0;
   const {
     name,
     port,
+    debugport = getDebugPort(port),
     cmd = 'npm run dev',
     volume,
   } = containerConfig;
-  let containerPorts;
 
-  if (containerConfig.port instanceof Array) {
-    containerPorts = containerConfig.port.map(p => `-p ${getPortMapping(p)}`).join(' ');
-  } else {
-    containerPorts = `-p ${getPortMapping(port)}`;
-  }
+  const containerPorts = containerConfig.port instanceof Array
+    ? containerConfig.port.map(p => `-p ${getPortMapping(p)}`).join(' ')
+    : `-p ${getPortMapping(port)}`;
+
+  const debugports = `-p ${getPortMapping(debugport, 9229)}`;
 
   context.options.forEach(flag => {
     if (flag.startsWith('-')) { flags[itr += 1] = flag; } else flags[1] = flag;
@@ -41,7 +52,7 @@ const runContainer = (context, containerConfig) => {
   if (volume === false) {
     containerVolume = '';
   }
-  const run = `docker run -e NODE_ENV=local ${env} ${flags[0]} ${containerPorts} ${containerVolume} --network ${context.name} --name ${containerConfig.name} ${containerConfig.name} ${containerCmd}`;
+  const run = `docker run -e NODE_ENV=local ${env} ${flags[0]} ${containerPorts} ${debugports} ${containerVolume} --network ${context.name} --name ${containerConfig.name} ${containerConfig.name} ${containerCmd}`;
 
   shell.echo(run);
   shell.exec(run);
