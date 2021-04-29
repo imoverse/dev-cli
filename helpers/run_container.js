@@ -7,17 +7,8 @@ const getPortMapping = (port, mapTo = 3000) => {
   return port;
 };
 
-const getDebugPort = port => {
-  const add = 6000;
-  if (typeof port === 'number') {
-    return port + add;
-  }
-  const colonIndex = port.indexOf(':');
-  if (colonIndex >= 0) {
-    return parseInt(port.substr(0, colonIndex), 10) + add;
-  }
-  return port;
-};
+const getDebugPort = port => parseInt(port, 10) + 6000;
+
 const runContainer = (context, containerConfig) => {
   const flags = ['-d'];
   let itr = 0;

@@ -12,7 +12,7 @@ const getContextTemplate = () => ({ ...context });
 test('Should run docker command', t => {
   mock('shelljs', {
     exec: cmd => {
-      t.is(cmd, 'docker run -e NODE_ENV=local  -d -p 3210:3000 -v /foo:/app --network local-test --name foo foo npm run dev');
+      t.is(cmd, 'docker run -e NODE_ENV=local  -d -p 3210:3000 -p 9210:9229 -v /foo:/app --network local-test --name foo foo npm run dev');
     },
     echo: () => {
       // noop
@@ -32,10 +32,11 @@ test('Should run docker command', t => {
   mock.stop('fs');
 });
 
-test('Should bind to container port 3000 if shorthand mapping is provided', t => {
+test('Should bind to container port 3000 and debug port 9229 if shorthand mapping is provided', t => {
   mock('shelljs', {
     exec: cmd => {
       t.assert(cmd.indexOf('3210:3000') > -1);
+      t.assert(cmd.indexOf('9210:9229') > -1);
     },
     echo: () => {
       // noop
