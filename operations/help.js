@@ -29,6 +29,8 @@ module.exports = () => {
 
   {green stop:}           Stop container(s). Support {gray [search] and [all]. Default [.]}
 
+  {green restart:}        Restart container(s). Support {gray [search] and [all]. Default [.]}
+
   {green brs:}            Shortcut for build and restart. Support {gray [search] and [all]. Default [.]}
 
   {green install:}        Install npm dependencies. Support {gray [search] and [all]. Default [.]}
