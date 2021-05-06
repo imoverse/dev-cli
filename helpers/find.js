@@ -30,7 +30,10 @@ const findAndApply = (context, search, func, options = {}) => {
       return context.otherRepos.map(repo => func(context, repo));
     }
 
-    const all = context.containers.concat(context.packages).concat(context.otherRepos);
+    const all = context.containers
+      .concat(context.packages)
+      .concat(context.otherRepos)
+      .concat(context.web);
     return all.map(repo => func(context, repo));
   }
 
