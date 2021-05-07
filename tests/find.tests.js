@@ -8,6 +8,7 @@ const context = {
   containers: [{ name: 'cont1' }],
   packages: [{ name: 'pack1' }],
   otherRepos: [{ name: 'other1' }],
+  web: [{ name: 'web1' }],
 };
 
 const getContextTemplate = () => ({ ...context });
@@ -20,7 +21,7 @@ test('findAndApply should run function on found repo', t => {
 });
 
 test('findAndApply should run on all repos if search is all', t => {
-  const result = ['cont1', 'pack1', 'other1'];
+  const result = ['cont1', 'pack1', 'other1', 'web1'];
   let index = 0;
   findAndApply(context, 'all', (ctx, repo) => {
     t.is(repo.name, result[index]);
