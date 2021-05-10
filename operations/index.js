@@ -3,6 +3,7 @@ const git = require('./git');
 const build = require('./build');
 const run = require('./run');
 const stop = require('./stop');
+const restart = require('./restart');
 const cd = require('./cd');
 const createNetwork = require('./createNetwork');
 const startExternal = require('./startExternal');
@@ -41,6 +42,7 @@ const operations = {
   build,
   run,
   stop,
+  restart,
   brs: (context, search) => {
     build(context, search);
     stop(context, search);
