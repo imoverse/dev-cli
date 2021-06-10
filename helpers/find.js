@@ -38,7 +38,7 @@ const findAndApply = (context, search, func, options = {}) => {
   }
 
   if (!options.onlyOthers && !options.onlyPackages) {
-    const container = find(context.containers, search || getSearchFromCwd());
+    const container = find(context.containers.concat(context.web), search || getSearchFromCwd());
     if (container) {
       return func(context, container);
     }
