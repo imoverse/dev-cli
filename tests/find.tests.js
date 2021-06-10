@@ -6,6 +6,7 @@ const context = {
   root: '',
   options: [],
   containers: [{ name: 'cont1' }],
+  web: [{ name: 'web1' }],
   packages: [{ name: 'pack1' }],
   otherRepos: [{ name: 'other1' }],
 };
@@ -20,22 +21,17 @@ test('findAndApply should run function on found repo', t => {
 });
 
 test('findAndApply should run on all repos if search is all', t => {
-  const result = ['cont1', 'pack1', 'other1'];
-  let index = 0;
+  const result = ['cont1', 'web1', 'pack1', 'other1'];
   findAndApply(context, 'all', (ctx, repo) => {
-    t.is(repo.name, result[index]);
-    index += 1;
+    t.true(result.includes(repo.name));
   });
 });
 
 test('findAndApply should run on all containers if onlyContainers flag is set', t => {
-  const result = ['cont1'];
-  let index = 0;
+  const result = ['cont1', 'web1'];
   findAndApply(context, 'all', (ctx, repo) => {
-    t.is(repo.name, result[index]);
-    index += 1;
+    t.true(result.includes(repo.name));
   }, { onlyContainers: true });
-  t.is(index, 1);
 });
 
 test('findAndApply should run on all packages if onlyPackages flag is set', t => {

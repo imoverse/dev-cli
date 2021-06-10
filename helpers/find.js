@@ -30,12 +30,12 @@ const findAndApply = (context, search, func, options = {}) => {
       return context.otherRepos.map(repo => func(context, repo));
     }
 
-    const all = context.containers.concat(context.packages).concat(context.otherRepos);
+    const all = context.containers.concat(context.packages).concat(context.otherRepos).concat(context.web);
     return all.map(repo => func(context, repo));
   }
 
   if (!options.onlyOthers && !options.onlyPackages) {
-    const container = find(context.containers, search || getSearchFromCwd());
+    const container = find(context.containers.concat(context.web), search || getSearchFromCwd());
     if (container) {
       return func(context, container);
     }
@@ -54,6 +54,7 @@ const findAndApply = (context, search, func, options = {}) => {
       return func(context, other);
     }
   }
+
   shell.echo(chalk`Could not find anything matching {blue "${search}"}`);
   return null;
 };

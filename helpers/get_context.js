@@ -33,6 +33,7 @@ module.exports = (operation, options) => {
       context.currentContainer = getCurrentContainer(context);
       const applyPath = (relativePath = '') => repo => ({ ...repo, path: `${context.root}/${relativePath}${repo.name}` });
       context.containers = (context.containers || []).map(applyPath());
+      context.web = (context.web || []).map(applyPath());
       context.packages = (context.packages || []).map(applyPath('packages/'));
       context.otherRepos = (context.otherRepos || []).map(applyPath());
       context.vars = (context.vars || {});
