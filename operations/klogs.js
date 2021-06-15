@@ -1,6 +1,6 @@
 const shell = require('shelljs');
 
-module.exports = (_, search) => {
+module.exports = (context, search) => {
   const pods = shell.exec(`kubectl get pods | grep "${search}"`, { silent: true }).stdout;
   const lines = pods.split('\n');
   const line = lines[0];
@@ -10,7 +10,7 @@ module.exports = (_, search) => {
     const containerMatch = pod.match(/(.*)-[a-z0-9]+-[a-z0-9]+/);
     if (containerMatch) {
       const container = containerMatch[1];
-      const cmd = `kubectl logs ${pod} ${container}`;
+      const cmd = `kubectl logs ${pod} ${container} ${context.options.filter(o => o[0] === '-').join(' ')}`;
       shell.echo(cmd);
       shell.exec(cmd);
     } else {
